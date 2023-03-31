@@ -9,7 +9,8 @@
   "dependencies": {
     "bs58": "^5.0.0",
     "near-api-js": "^1.1.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "bn.js": "5.2.1"
   },
   "devDependencies": {
     "@types/node": "^18.7.14",

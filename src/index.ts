@@ -1,7 +1,43 @@
 import bs58 from "bs58";
 import crypto from "crypto";
+import { BlockHeaderInnerLiteView } from "near-api-js/lib/providers/provider";
+import { Assignable } from "near-api-js/lib/utils/enums";
+import { BN } from "bn.js";
+import { serialize } from "near-api-js/lib/utils/serialize";
+import { PublicKey } from "near-api-js/lib/utils";
 
 const ED_PREFIX: string = "ed25519:";
+
+export class BorshBlockHeaderInnerLite extends Assignable {
+  // TODO height and timestamp are re-using same types
+  height: BN;
+  epoch_id: string;
+  next_epoch_id: string;
+  prev_state_root: string;
+  outcome_root: string;
+  timestamp: BN;
+  next_bp_hash: string;
+  block_merkle_root: string;
+}
+
+const SCHEMA = new Map([
+  [
+    BorshBlockHeaderInnerLite,
+    {
+      kind: "struct",
+      fields: [
+        ["height", "u64"],
+        ["epoch_id", [32]],
+        ["next_epoch_id", [32]],
+        ["prev_state_root", [32]],
+        ["outcome_root", [32]],
+        ["timestamp", "u64"],
+        ["next_bp_hash", [32]],
+        ["block_merkle_root", [32]],
+      ],
+    },
+  ],
+]);
 
 function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
   const hash = crypto.createHash("sha256");
@@ -11,16 +47,7 @@ function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
 }
 
 function computeBlockHash(
-  innerLiteView: {
-    height: number;
-    epoch_id: string;
-    next_epoch_id: string;
-    prev_state_root: string;
-    outcome_root: string;
-    timestamp_nanosec: string;
-    next_bp_hash: string;
-    block_merkle_root: string;
-  },
+  innerLiteView: BlockHeaderInnerLiteView,
   innerRestHash: string,
   prevHash: string
 ): string {
@@ -28,18 +55,20 @@ function computeBlockHash(
   const prevHashDecoded = bs58.decode(prevHash);
 
   // TODO pull type from NAJ
-  const innerLite = new BlockHeaderInnerLite();
-  innerLite.height = innerLiteView.height;
-  innerLite.epoch_id = bs58.decode(innerLiteView.epoch_id);
-  innerLite.next_epoch_id = bs58.decode(innerLiteView.next_epoch_id);
-  innerLite.prev_state_root = bs58.decode(innerLiteView.prev_state_root);
-  innerLite.outcome_root = bs58.decode(innerLiteView.outcome_root);
-  innerLite.timestamp = parseInt(innerLiteView.timestamp_nanosec, 10);
-  innerLite.next_bp_hash = bs58.decode(innerLiteView.next_bp_hash);
-  innerLite.block_merkle_root = bs58.decode(innerLiteView.block_merkle_root);
+  const innerLite = new BorshBlockHeaderInnerLite({
+    height: new BN(innerLiteView.height),
+    epoch_id: bs58.decode(innerLiteView.epoch_id),
+    next_epoch_id: bs58.decode(innerLiteView.next_epoch_id),
+    prev_state_root: bs58.decode(innerLiteView.prev_state_root),
+    outcome_root: bs58.decode(innerLiteView.outcome_root),
+    timestamp: new BN(innerLiteView.timestamp),
+    // TODO should be using timestamp_nanosec. Check if it exists on the JS object in practice
+    // timestamp: parseInt(innerLiteView.timestamp_nanosec, 10),
+    next_bp_hash: bs58.decode(innerLiteView.next_bp_hash),
+    block_merkle_root: bs58.decode(innerLiteView.block_merkle_root),
+  });
 
-  // TODO use borsh serialization for inner lite
-  const msg = new BinarySerializer(inner_lite_schema).serialize(innerLite);
+  const msg = serialize(SCHEMA, innerLite);
   const innerLiteHash = crypto.createHash("sha256").update(msg).digest();
   const innerHash = combineHash(innerLiteHash, innerRestHashDecoded);
   const finalHash = combineHash(innerHash, prevHashDecoded);
@@ -89,12 +118,8 @@ function validateLightClientBlock(
 
     approvedStake += parseInt(stake, 10);
 
-    const publicKey = blockProducers[i].public_key;
+    const publicKey = PublicKey.from(blockProducers[i].public_key);
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
-    // TODO use naj for verify key type
-    const verifyKey = nacl.signing.VerifyKey(
-      bs58.decode(publicKey.slice(ED_PREFIX.length))
-    );
 
     const approvalMessage = new Uint8Array([
       0,
@@ -109,7 +134,7 @@ function validateLightClientBlock(
       // TODO think this is wrong and should be another 0
     ]);
 
-    verifyKey.verify(approvalMessage, signature);
+    publicKey.verify(approvalMessage, signature);
   }
 
   const threshold = (totalStake * 2) / 3;
