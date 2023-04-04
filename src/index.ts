@@ -1,6 +1,6 @@
 import bs58 from "bs58";
 import crypto from "crypto";
-import { BlockHeaderInnerLiteView } from "near-api-js/lib/providers/provider";
+import { LightClientBlockLiteView } from "near-api-js/lib/providers/provider";
 import { Assignable } from "near-api-js/lib/utils/enums";
 import { BN } from "bn.js";
 import { serialize } from "near-api-js/lib/utils/serialize";
@@ -47,14 +47,29 @@ function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
 }
 
 function computeBlockHash(
-  innerLiteView: BlockHeaderInnerLiteView,
-  innerRestHash: string,
-  prevHash: string
+  header: BorshBlockHeaderInnerLite,
+  innerRestHash: Uint8Array,
+  prevHash: Uint8Array
 ): string {
-  const innerRestHashDecoded = bs58.decode(innerRestHash);
-  const prevHashDecoded = bs58.decode(prevHash);
+  const msg = serialize(SCHEMA, header);
+  const innerLiteHash = crypto.createHash("sha256").update(msg).digest();
+  const innerHash = combineHash(innerLiteHash, innerRestHash);
+  const finalHash = combineHash(innerHash, prevHash);
 
-  // TODO pull type from NAJ
+  return bs58.encode(finalHash);
+}
+
+// TODO this is probably public endpoint
+function validateLightClientBlock(
+  lastKnownBlock: LightClientBlockLiteView,
+  // TODO this block type needed isn't in NAJ. Look into if provider is not done for this
+  newBlock: any,
+  blockProducersMap: Record<string, any>
+): boolean {
+  const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
+  const prevHashDecoded = bs58.decode(lastKnownBlock.prev_block_hash);
+
+  const innerLiteView = lastKnownBlock.inner_lite;
   const innerLite = new BorshBlockHeaderInnerLite({
     height: new BN(innerLiteView.height),
     epoch_id: bs58.decode(innerLiteView.epoch_id),
@@ -62,29 +77,15 @@ function computeBlockHash(
     prev_state_root: bs58.decode(innerLiteView.prev_state_root),
     outcome_root: bs58.decode(innerLiteView.outcome_root),
     timestamp: new BN(innerLiteView.timestamp),
-    // TODO should be using timestamp_nanosec. Check if it exists on the JS object in practice
+    // TODO could be using timestamp_nanosec. Check if it exists on the JS object in practice
     // timestamp: parseInt(innerLiteView.timestamp_nanosec, 10),
     next_bp_hash: bs58.decode(innerLiteView.next_bp_hash),
     block_merkle_root: bs58.decode(innerLiteView.block_merkle_root),
   });
-
-  const msg = serialize(SCHEMA, innerLite);
-  const innerLiteHash = crypto.createHash("sha256").update(msg).digest();
-  const innerHash = combineHash(innerLiteHash, innerRestHashDecoded);
-  const finalHash = combineHash(innerHash, prevHashDecoded);
-
-  return bs58.encode(finalHash);
-}
-
-function validateLightClientBlock(
-  lastKnownBlock: any,
-  newBlock: any,
-  blockProducersMap: Record<string, any>
-): boolean {
   const newBlockHash = computeBlockHash(
-    newBlock.inner_lite,
-    newBlock.inner_rest_hash,
-    newBlock.prev_block_hash
+    innerLite,
+    innerRestHashDecoded,
+    prevHashDecoded
   );
   const nextBlockHashDecoded = combineHash(
     bs58.decode(newBlock.next_block_inner_hash),
