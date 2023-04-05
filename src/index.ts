@@ -1,6 +1,9 @@
 import bs58 from "bs58";
 import crypto from "crypto";
-import { LightClientBlockLiteView } from "near-api-js/lib/providers/provider";
+import {
+  LightClientBlockLiteView,
+  NextLightClientBlockResponse,
+} from "near-api-js/lib/providers/provider";
 import { Assignable } from "near-api-js/lib/utils/enums";
 import { BN } from "bn.js";
 import { serialize } from "near-api-js/lib/utils/serialize";
@@ -60,10 +63,9 @@ function computeBlockHash(
 }
 
 // TODO this is probably public endpoint
-function validateLightClientBlock(
+export function validateLightClientBlock(
   lastKnownBlock: LightClientBlockLiteView,
-  // TODO this block type needed isn't in NAJ. Look into if provider is not done for this
-  newBlock: any,
+  newBlock: NextLightClientBlockResponse,
   blockProducersMap: Record<string, any>
 ): boolean {
   const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
@@ -157,7 +159,9 @@ function validateLightClientBlock(
       0,
       0,
     ]);
-    for (const bp of newBlock.next_bps) {
+    for (const nbp of newBlock.next_bps) {
+      // TODO this type is missing this version field
+      const bp = nbp as any;
       let version = 0;
       if (bp.validator_stake_struct_version) {
         version = parseInt(bp.validator_stake_struct_version.slice(1)) - 1;
