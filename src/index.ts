@@ -3,6 +3,7 @@ import crypto from "crypto";
 import {
   LightClientBlockLiteView,
   NextLightClientBlockResponse,
+  ValidatorStakeView,
 } from "near-api-js/lib/providers/provider";
 import { Assignable } from "near-api-js/lib/utils/enums";
 import { BN } from "bn.js";
@@ -12,7 +13,6 @@ import { PublicKey } from "near-api-js/lib/utils";
 const ED_PREFIX: string = "ed25519:";
 
 export class BorshBlockHeaderInnerLite extends Assignable {
-  // TODO height and timestamp are re-using same types
   height: BN;
   epoch_id: string;
   next_epoch_id: string;
@@ -66,8 +66,10 @@ function computeBlockHash(
 export function validateLightClientBlock(
   lastKnownBlock: LightClientBlockLiteView,
   newBlock: NextLightClientBlockResponse,
-  blockProducersMap: Record<string, any>
+  blockProducersMap: Record<string, ValidatorStakeView[]>
 ): boolean {
+  // Numbers for each step references the spec:
+  // https://github.com/near/NEPs/blob/c7d72138117ed0ab86629a27d1f84e9cce80848f/specs/ChainSpec/LightClient.md
   const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
   const prevHashDecoded = bs58.decode(lastKnownBlock.prev_block_hash);
 
@@ -94,6 +96,10 @@ export function validateLightClientBlock(
     bs58.decode(newBlockHash)
   );
 
+  // (1)
+  // TODO should validate the height is > than the last known block
+
+  // (2)
   if (
     newBlock.inner_lite.epoch_id !== lastKnownBlock.inner_lite.epoch_id &&
     newBlock.inner_lite.epoch_id !== lastKnownBlock.inner_lite.next_epoch_id
@@ -101,11 +107,15 @@ export function validateLightClientBlock(
     throw new Error("Validation failed");
   }
 
+  // (3)
+  // TODO validate that next_bps is not empty if new epoch (next_epoch == newBlock.epoch)
+
   const blockProducers = blockProducersMap[newBlock.inner_lite.epoch_id];
   if (newBlock.approvals_after_next.length !== blockProducers.length) {
     throw new Error("Validation failed");
   }
 
+  // (4) and (5)
   let totalStake = 0;
   let approvedStake = 0;
 
@@ -124,6 +134,7 @@ export function validateLightClientBlock(
     const publicKey = PublicKey.from(blockProducers[i].public_key);
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
 
+    // TODO replace this manual borsh encoding with borsh utils
     const approvalMessage = new Uint8Array([
       0,
       ...nextBlockHashDecoded,
@@ -140,11 +151,13 @@ export function validateLightClientBlock(
     publicKey.verify(approvalMessage, signature);
   }
 
+  // (5)
   const threshold = (totalStake * 2) / 3;
   if (approvedStake <= threshold) {
     throw new Error("Validation failed");
   }
 
+  // (6)
   if (
     newBlock.inner_lite.epoch_id === lastKnownBlock.inner_lite.next_epoch_id
   ) {
