@@ -96,8 +96,12 @@ export function validateLightClientBlock(
     bs58.decode(newBlockHash)
   );
 
+  // TODO make error messages better
+
   // (1)
-  // TODO should validate the height is > than the last known block
+  if (newBlock.inner_lite.height <= lastKnownBlock.inner_lite.height) {
+    throw new Error("Validation failed");
+  }
 
   // (2)
   if (
@@ -108,7 +112,12 @@ export function validateLightClientBlock(
   }
 
   // (3)
-  // TODO validate that next_bps is not empty if new epoch (next_epoch == newBlock.epoch)
+  if (
+    newBlock.inner_lite.epoch_id == lastKnownBlock.inner_lite.epoch_id &&
+    newBlock.next_bps
+  ) {
+    throw new Error("Validation failed");
+  }
 
   const blockProducers = blockProducersMap[newBlock.inner_lite.epoch_id];
   if (newBlock.approvals_after_next.length !== blockProducers.length) {
