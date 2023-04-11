@@ -12,7 +12,7 @@ import { PublicKey } from "near-api-js/lib/utils";
 
 const ED_PREFIX: string = "ed25519:";
 
-export class BorshBlockHeaderInnerLite extends Assignable {
+class BorshBlockHeaderInnerLite extends Assignable {
   height: BN;
   epoch_id: string;
   next_epoch_id: string;
