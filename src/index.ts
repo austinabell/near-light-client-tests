@@ -192,17 +192,15 @@ export function validateLightClientBlock(
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
 
     // TODO replace this manual borsh encoding with borsh utils
+    const approvalEndorsement = serialize(
+      SCHEMA,
+      new BorshApprovalInner({ endorsement: nextBlockHashDecoded })
+    );
+
+    const approvalHeight: BN = new BN(newBlock.inner_lite.height) + 2;
     const approvalMessage = new Uint8Array([
-      0,
-      ...nextBlockHashDecoded,
-      newBlock.inner_lite.height + 2,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      // TODO think this is wrong and should be another 0
+      ...approvalEndorsement,
+      ...approvalHeight.toArrayLike(Uint8Array, "le", 8),
     ]);
 
     publicKey.verify(approvalMessage, signature);
@@ -222,7 +220,6 @@ export function validateLightClientBlock(
       throw new Error("Validation failed");
     }
 
-    console.log(newBlock.next_bps);
     const serializedNextBp = new Uint8Array([
       newBlock.next_bps.length,
       0,
