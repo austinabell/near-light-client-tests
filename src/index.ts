@@ -5,7 +5,7 @@ import {
   NextLightClientBlockResponse,
   ValidatorStakeView,
 } from "near-api-js/lib/providers/provider";
-import { Assignable } from "near-api-js/lib/utils/enums";
+import { Assignable, Enum } from "near-api-js/lib/utils/enums";
 import { BN } from "bn.js";
 import { serialize } from "near-api-js/lib/utils/serialize";
 import { PublicKey } from "near-api-js/lib/utils";
@@ -14,16 +14,34 @@ const ED_PREFIX: string = "ed25519:";
 
 class BorshBlockHeaderInnerLite extends Assignable {
   height: BN;
-  epoch_id: string;
-  next_epoch_id: string;
-  prev_state_root: string;
-  outcome_root: string;
+  epoch_id: Uint8Array;
+  next_epoch_id: Uint8Array;
+  prev_state_root: Uint8Array;
+  outcome_root: Uint8Array;
   timestamp: BN;
-  next_bp_hash: string;
-  block_merkle_root: string;
+  next_bp_hash: Uint8Array;
+  block_merkle_root: Uint8Array;
 }
 
-const SCHEMA = new Map([
+class BorshApprovalInner extends Enum {
+  // TODO NAJ doesn't have enum values as optional, figure out why
+  endorsement?: Uint8Array;
+  skip?: BN;
+}
+
+class BorshValidatorStakeViewV1 extends Assignable {
+  account_id: string;
+  public_key: PublicKey;
+  stake: BN;
+}
+
+class BorshValidatorStakeView extends Enum {
+  v1?: BorshValidatorStakeViewV1;
+}
+
+// TODO when merging into NAJ, this likely gets combined with their SCHEMA
+type Class<T = any> = new (...args: any[]) => T;
+const SCHEMA = new Map<Class, any>([
   [
     BorshBlockHeaderInnerLite,
     {
@@ -38,6 +56,36 @@ const SCHEMA = new Map([
         ["next_bp_hash", [32]],
         ["block_merkle_root", [32]],
       ],
+    },
+  ],
+  [
+    BorshApprovalInner,
+    {
+      kind: "enum",
+      field: "enum",
+      values: [
+        ["endorsement", [32]],
+        ["skip", "u64"],
+      ],
+    },
+  ],
+  [
+    BorshValidatorStakeViewV1,
+    {
+      kind: "struct",
+      fields: [
+        ["account_id", "string"],
+        ["public_key", PublicKey],
+        ["stake", "u128"],
+      ],
+    },
+  ],
+  [
+    BorshValidatorStakeView,
+    {
+      kind: "enum",
+      field: "enum",
+      values: [["v1", BorshValidatorStakeViewV1]],
     },
   ],
 ]);
