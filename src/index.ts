@@ -110,11 +110,11 @@ function computeBlockHash(
   return bs58.encode(finalHash);
 }
 
-// TODO this is probably public endpoint
 export function validateLightClientBlock(
   lastKnownBlock: LightClientBlockLiteView,
-  newBlock: NextLightClientBlockResponse,
-  blockProducersMap: Record<string, ValidatorStakeView[]>
+  // TODO explore having last block to be a parent type that includes this. Might be awkward to use.
+  currentBlockProducers: ValidatorStakeView[],
+  newBlock: NextLightClientBlockResponse
 ): boolean {
   // Numbers for each step references the spec:
   // https://github.com/near/NEPs/blob/c7d72138117ed0ab86629a27d1f84e9cce80848f/specs/ChainSpec/LightClient.md
@@ -159,15 +159,7 @@ export function validateLightClientBlock(
     throw new Error("Validation failed");
   }
 
-  // (3)
-  if (
-    newBlock.inner_lite.epoch_id == lastKnownBlock.inner_lite.epoch_id &&
-    newBlock.next_bps
-  ) {
-    throw new Error("Validation failed");
-  }
-
-  const blockProducers = blockProducersMap[newBlock.inner_lite.epoch_id];
+  const blockProducers: ValidatorStakeView[] = currentBlockProducers;
   if (newBlock.approvals_after_next.length !== blockProducers.length) {
     throw new Error("Validation failed");
   }
@@ -209,45 +201,40 @@ export function validateLightClientBlock(
   // (5)
   const threshold = (totalStake * 2) / 3;
   if (approvedStake <= threshold) {
-    throw new Error("Validation failed");
+    throw new Error("Approved stake does not exceed the 2/3 threshold");
   }
 
   // (6)
   if (
     newBlock.inner_lite.epoch_id === lastKnownBlock.inner_lite.next_epoch_id
   ) {
-    if (newBlock.next_bps === null) {
-      throw new Error("Validation failed");
+    // (3)
+    if (!newBlock.next_bps) {
+      throw new Error(
+        "New block must include next block producers if a new epoch starts"
+      );
     }
 
-    const serializedNextBp = new Uint8Array([
-      newBlock.next_bps.length,
-      0,
-      0,
-      0,
-    ]);
-    for (const nbp of newBlock.next_bps) {
-      // TODO this type is missing this version field
-      const bp = nbp as any;
-      let version = 0;
-      if (bp.validator_stake_struct_version) {
-        version = parseInt(bp.validator_stake_struct_version.slice(1)) - 1;
-        serializedNextBp.set(
-          new Uint8Array([version]),
-          serializedNextBp.length
-        );
-      }
-      serializedNextBp.set(
-        new Uint8Array([5, 0, 0, 0]),
-        serializedNextBp.length
-      );
-      serializedNextBp.set(
-        new TextEncoder().encode(bp.account_id),
-        serializedNextBp.length
-      );
-      serializedNextBp.set(new Uint8Array([0]), serializedNextBp.length);
-      serializedNextBp.set(bs58.decode(bp.public_key.slice(ED_PREFIX.length)));
+    // TODO this type is missing this version field, this may be broken if NAJ discards the field
+    const bp = newBlock.next_bps as any;
+
+    const borshBps: BorshValidatorStakeView[] = bp.map((bp) => {
+      // TODO verify version and throw error if not 1
+      return new BorshValidatorStakeView({
+        v1: new BorshValidatorStakeViewV1({
+          account_id: bp.account_id,
+          public_key: bs58.decode(bp.public_key),
+          stake: bp.stake,
+        }),
+      });
+    });
+    const serializedBps = serialize(SCHEMA, borshBps);
+    const bpsHash = crypto.createHash("sha256").update(serializedBps).digest();
+
+    if (!bpsHash.equals(bs58.decode(newBlock.inner_lite.next_bp_hash))) {
+      throw new Error("Next block producers hash doesn't match");
     }
   }
+
   return true;
 }
