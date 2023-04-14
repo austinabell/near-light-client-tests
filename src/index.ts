@@ -148,7 +148,9 @@ export function validateLightClientBlock(
 
   // (1)
   if (newBlock.inner_lite.height <= lastKnownBlock.inner_lite.height) {
-    throw new Error("Validation failed");
+    throw new Error(
+      "New block must be at least the height of the last known block"
+    );
   }
 
   // (2)
@@ -156,12 +158,16 @@ export function validateLightClientBlock(
     newBlock.inner_lite.epoch_id !== lastKnownBlock.inner_lite.epoch_id &&
     newBlock.inner_lite.epoch_id !== lastKnownBlock.inner_lite.next_epoch_id
   ) {
-    throw new Error("Validation failed");
+    throw new Error(
+      "New block must either be in the same epoch or the next epoch from the last known block"
+    );
   }
 
   const blockProducers: ValidatorStakeView[] = currentBlockProducers;
   if (newBlock.approvals_after_next.length !== blockProducers.length) {
-    throw new Error("Validation failed");
+    throw new Error(
+      "Number of approvals from the next block must match the number of block producers in the current epoch"
+    );
   }
 
   // (4) and (5)
