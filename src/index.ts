@@ -192,20 +192,20 @@ export function validateLightClientBlock(
   }
 
   // (4) and (5)
-  let totalStake = 0;
-  let approvedStake = 0;
+  let totalStake = new BN(0);
+  let approvedStake = new BN(0);
 
   for (let i = 0; i < newBlock.approvals_after_next.length; i++) {
     const approval = newBlock.approvals_after_next[i];
     const stake = blockProducers[i].stake;
 
-    totalStake += parseInt(stake, 10);
+    totalStake.iadd(new BN(stake));
 
     if (approval === null) {
       continue;
     }
 
-    approvedStake += parseInt(stake, 10);
+    approvedStake.iadd(new BN(stake));
 
     const publicKey = PublicKey.fromString(blockProducers[i].public_key);
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
