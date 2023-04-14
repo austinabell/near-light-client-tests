@@ -22,5 +22,8 @@
       "noUnusedLocals": true,
       "experimentalDecorators": true,
       "resolveJsonModule": true,
-  }
+  },
+  "files": [
+    "src/index.ts"
+  ]
 }
