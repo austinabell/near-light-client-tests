@@ -112,7 +112,7 @@ function computeBlockHash(
 
 export function validateLightClientBlock(
   lastKnownBlock: LightClientBlockLiteView,
-  // TODO explore having last block to be a parent type that includes this. Might be awkward to use.
+  // TODO this might be a bit awkward to use, don't want to infer storage of epoch to bps mapping
   currentBlockProducers: ValidatorStakeView[],
   newBlock: NextLightClientBlockResponse
 ): boolean {
@@ -143,8 +143,6 @@ export function validateLightClientBlock(
     bs58.decode(newBlock.next_block_inner_hash),
     bs58.decode(newBlockHash)
   );
-
-  // TODO make error messages better
 
   // (1)
   if (newBlock.inner_lite.height <= lastKnownBlock.inner_lite.height) {
@@ -222,10 +220,17 @@ export function validateLightClientBlock(
     }
 
     // TODO this type is missing this version field, this may be broken if NAJ discards the field
-    const bp = newBlock.next_bps as any;
+    const bps = newBlock.next_bps as any;
 
-    const borshBps: BorshValidatorStakeView[] = bp.map((bp) => {
-      // TODO verify version and throw error if not 1
+    const borshBps: BorshValidatorStakeView[] = bps.map((bp: any) => {
+      if (bp.validator_stake_struct_version) {
+        const version = parseInt(bp.validator_stake_struct_version.slice(1));
+        if (version !== 1) {
+          throw new Error(
+            "Only version 1 of the validator stake struct is supported"
+          );
+        }
+      }
       return new BorshValidatorStakeView({
         v1: new BorshValidatorStakeViewV1({
           account_id: bp.account_id,
