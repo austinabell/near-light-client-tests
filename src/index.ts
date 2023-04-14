@@ -39,6 +39,10 @@ class BorshValidatorStakeView extends Enum {
   v1?: BorshValidatorStakeViewV1;
 }
 
+class BorshValidatorStakeViewWrapper extends Assignable {
+  bps: BorshValidatorStakeView[];
+}
+
 // TODO when merging into NAJ, this likely gets combined with their SCHEMA
 type Class<T = any> = new (...args: any[]) => T;
 const SCHEMA = new Map<Class, any>([
@@ -88,6 +92,25 @@ const SCHEMA = new Map<Class, any>([
       values: [["v1", BorshValidatorStakeViewV1]],
     },
   ],
+  [
+    BorshValidatorStakeViewWrapper,
+    {
+      kind: "struct",
+      fields: [["bps", [BorshValidatorStakeView]]],
+    },
+  ],
+
+  // TODO this is a duplicate from naj
+  [
+    PublicKey,
+    {
+      kind: "struct",
+      fields: [
+        ["keyType", "u8"],
+        ["data", [32]],
+      ],
+    },
+  ],
 ]);
 
 function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
@@ -115,22 +138,22 @@ export function validateLightClientBlock(
   // TODO this might be a bit awkward to use, don't want to infer storage of epoch to bps mapping
   currentBlockProducers: ValidatorStakeView[],
   newBlock: NextLightClientBlockResponse
-): boolean {
+) {
   // Numbers for each step references the spec:
   // https://github.com/near/NEPs/blob/c7d72138117ed0ab86629a27d1f84e9cce80848f/specs/ChainSpec/LightClient.md
   const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
   const prevHashDecoded = bs58.decode(lastKnownBlock.prev_block_hash);
 
-  const innerLiteView = lastKnownBlock.inner_lite;
+  // TODO workaround until updated for added nanosec type
+  const innerLiteView = lastKnownBlock.inner_lite as any;
+
   const innerLite = new BorshBlockHeaderInnerLite({
     height: new BN(innerLiteView.height),
     epoch_id: bs58.decode(innerLiteView.epoch_id),
     next_epoch_id: bs58.decode(innerLiteView.next_epoch_id),
     prev_state_root: bs58.decode(innerLiteView.prev_state_root),
     outcome_root: bs58.decode(innerLiteView.outcome_root),
-    timestamp: new BN(innerLiteView.timestamp),
-    // TODO could be using timestamp_nanosec. Check if it exists on the JS object in practice
-    // timestamp: parseInt(innerLiteView.timestamp_nanosec, 10),
+    timestamp: new BN(innerLiteView.timestamp_nanosec),
     next_bp_hash: bs58.decode(innerLiteView.next_bp_hash),
     block_merkle_root: bs58.decode(innerLiteView.block_merkle_root),
   });
@@ -184,7 +207,7 @@ export function validateLightClientBlock(
 
     approvedStake += parseInt(stake, 10);
 
-    const publicKey = PublicKey.from(blockProducers[i].public_key);
+    const publicKey = PublicKey.fromString(blockProducers[i].public_key);
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
 
     // TODO replace this manual borsh encoding with borsh utils
@@ -193,10 +216,11 @@ export function validateLightClientBlock(
       new BorshApprovalInner({ endorsement: nextBlockHashDecoded })
     );
 
-    const approvalHeight: BN = new BN(newBlock.inner_lite.height) + 2;
+    const approvalHeight: BN = new BN(newBlock.inner_lite.height + 2);
+    const approvalHeightLe = approvalHeight.toArrayLike(Uint8Array, "le", 8);
     const approvalMessage = new Uint8Array([
       ...approvalEndorsement,
-      ...approvalHeight.toArrayLike(Uint8Array, "le", 8),
+      ...approvalHeightLe,
     ]);
 
     publicKey.verify(approvalMessage, signature);
@@ -234,18 +258,20 @@ export function validateLightClientBlock(
       return new BorshValidatorStakeView({
         v1: new BorshValidatorStakeViewV1({
           account_id: bp.account_id,
-          public_key: bs58.decode(bp.public_key),
+          public_key: PublicKey.fromString(bp.public_key),
           stake: bp.stake,
         }),
       });
     });
-    const serializedBps = serialize(SCHEMA, borshBps);
+    const serializedBps = serialize(
+      SCHEMA,
+      // NOTE: just wrapping because borsh-js requires this type to be in the schema for some reason
+      new BorshValidatorStakeViewWrapper({ bps: borshBps })
+    );
     const bpsHash = crypto.createHash("sha256").update(serializedBps).digest();
 
     if (!bpsHash.equals(bs58.decode(newBlock.inner_lite.next_bp_hash))) {
       throw new Error("Next block producers hash doesn't match");
     }
   }
-
-  return true;
 }

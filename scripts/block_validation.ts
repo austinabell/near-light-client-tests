@@ -1,8 +1,9 @@
 import { JsonRpcProvider } from "near-api-js/lib/providers";
+import { validateLightClientBlock } from "../lib";
 
 async function main() {
   const provider = new JsonRpcProvider({
-    url: "https://rpc.mainnet.near.org",
+    url: "https://archival-rpc.mainnet.near.org",
   });
 
   const stat = await provider.status();
@@ -13,13 +14,23 @@ async function main() {
     finality: "final",
   });
 
-  const prevEpochHeight = height - protocolConfig.epoch_length;
-  const prevBlock = await provider.block({ blockId: prevEpochHeight });
-  const nextBlock = await provider.nextLightClientBlock({
-    last_block_hash: prevBlock.header.hash,
+  // Get a block from 8 epochs back
+  const firstEpochHeight = height - protocolConfig.epoch_length * 8;
+  const firstBlock = await provider.block({ blockId: firstEpochHeight });
+  const prevBlock = await provider.nextLightClientBlock({
+    last_block_hash: firstBlock.header.hash,
   });
-  
-  console.log(nextBlock);
+  const nextBlock = await provider.nextLightClientBlock({
+    // TODO using prev block hash for convenience. Maybe there is a better way around this?
+    last_block_hash: prevBlock.prev_block_hash,
+  });
+
+  if (!prevBlock.next_bps) {
+    throw new Error("Rpc should include the next_bps field");
+  }
+
+  // This will throw an error if invalid
+  validateLightClientBlock(prevBlock, prevBlock.next_bps, nextBlock);
 }
 
 main();
