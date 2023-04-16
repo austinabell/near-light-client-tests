@@ -144,8 +144,7 @@ export function validateLightClientBlock(
   const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
   const prevHashDecoded = bs58.decode(lastKnownBlock.prev_block_hash);
 
-  // TODO workaround until updated for added nanosec type
-  const innerLiteView = lastKnownBlock.inner_lite as any;
+  const innerLiteView = lastKnownBlock.inner_lite;
 
   const innerLite = new BorshBlockHeaderInnerLite({
     height: new BN(innerLiteView.height),
