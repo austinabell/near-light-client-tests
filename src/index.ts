@@ -185,9 +185,9 @@ export function validateLightClientBlock(
   }
 
   const blockProducers: ValidatorStakeView[] = currentBlockProducers;
-  if (newBlock.approvals_after_next.length !== blockProducers.length) {
+  if (newBlock.approvals_after_next.length < blockProducers.length) {
     throw new Error(
-      "Number of approvals from the next block must match the number of block producers in the current epoch"
+      "Number of approvals for next epoch must be at least the number of current block producers"
     );
   }
 
@@ -195,7 +195,7 @@ export function validateLightClientBlock(
   let totalStake = new BN(0);
   let approvedStake = new BN(0);
 
-  for (let i = 0; i < newBlock.approvals_after_next.length; i++) {
+  for (let i = 0; i < blockProducers.length; i++) {
     const approval = newBlock.approvals_after_next[i];
     const stake = blockProducers[i].stake;
 
