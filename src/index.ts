@@ -243,10 +243,7 @@ export function validateLightClientBlock(
       );
     }
 
-    // TODO this type is missing this version field, this may be broken if NAJ discards the field
-    const bps = newBlock.next_bps as any;
-
-    const borshBps: BorshValidatorStakeView[] = bps.map((bp: any) => {
+    const borshBps: BorshValidatorStakeView[] = newBlock.next_bps.map((bp) => {
       if (bp.validator_stake_struct_version) {
         const version = parseInt(bp.validator_stake_struct_version.slice(1));
         if (version !== 1) {
