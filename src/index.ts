@@ -1,7 +1,10 @@
 import bs58 from "bs58";
 import crypto from "crypto";
 import {
+  BlockHeaderInnerLiteView,
   LightClientBlockLiteView,
+  LightClientProof,
+  MerklePath,
   NextLightClientBlockResponse,
   ValidatorStakeView,
 } from "near-api-js/lib/providers/provider";
@@ -269,5 +272,66 @@ export function validateLightClientBlock(
     if (!bpsHash.equals(bs58.decode(newBlock.inner_lite.next_bp_hash))) {
       throw new Error("Next block producers hash doesn't match");
     }
+  }
+}
+
+function blockHeaderInnerLiteHash(data: BlockHeaderInnerLiteView): Buffer {
+  let hash = crypto.createHash("sha256");
+  hash.update(new BN(data.height).toArrayLike(Uint8Array, "le", 8));
+  hash.update(bs58.decode(data.epoch_id));
+  hash.update(bs58.decode(data.next_epoch_id));
+  hash.update(bs58.decode(data.prev_state_root));
+  hash.update(bs58.decode(data.outcome_root));
+  hash.update(
+    new BN(data.timestamp_nanosec || data.timestamp).toArrayLike(
+      Uint8Array,
+      "le",
+      8
+    )
+  );
+  hash.update(bs58.decode(data.next_bp_hash));
+  hash.update(bs58.decode(data.block_merkle_root));
+  return hash.digest();
+}
+
+function computeRoot(node: Buffer, proof: MerklePath): Buffer {
+  proof.forEach((step) => {
+    if (step.direction == "Left") {
+      node = combineHash(bs58.decode(step.hash), node);
+    } else {
+      node = combineHash(node, bs58.decode(step.hash));
+    }
+  });
+  return node;
+}
+
+function computeMerkleRoot(proof: LightClientProof): Buffer {
+  const innerLiteHash = blockHeaderInnerLiteHash(
+    proof.block_header_lite.inner_lite
+  );
+
+  const headerHash = combineHash(
+    combineHash(
+      innerLiteHash,
+      bs58.decode(proof.block_header_lite.inner_rest_hash)
+    ),
+    bs58.decode(proof.block_header_lite.prev_block_hash)
+  );
+
+  return computeRoot(headerHash, proof.block_proof);
+}
+
+export function validateExecutionProof(proof: LightClientProof) {
+  // Execution outcome root verification
+  // TODO
+
+  // Block merkle root verification
+  const blockMerkleRoot = computeMerkleRoot(proof);
+  if (
+    !blockMerkleRoot.equals(
+      bs58.decode(proof.block_header_lite.inner_lite.block_merkle_root)
+    )
+  ) {
+    throw new Error("Block merkle root doesn't match");
   }
 }
