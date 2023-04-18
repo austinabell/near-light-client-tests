@@ -2,6 +2,9 @@ import bs58 from "bs58";
 import crypto from "crypto";
 import {
   BlockHeaderInnerLiteView,
+  ExecutionOutcomeWithIdView,
+  ExecutionStatus,
+  ExecutionStatusBasic,
   LightClientBlockLiteView,
   LightClientProof,
   MerklePath,
@@ -44,6 +47,31 @@ class BorshValidatorStakeView extends Enum {
 
 class BorshValidatorStakeViewWrapper extends Assignable {
   bps: BorshValidatorStakeView[];
+}
+
+class BorshEmpty extends Assignable {}
+
+class BorshPartialExecutionStatus extends Enum {
+  unknown?: BorshEmpty;
+  failure?: BorshEmpty;
+  successValue?: Uint8Array;
+  successReceiptId?: Uint8Array;
+}
+
+class BorshPartialExecutionOutcome extends Assignable {
+  receiptIds: Uint8Array[];
+  gasBurnt: BN;
+  tokensBurnt: BN;
+  executorId: string;
+  status: BorshPartialExecutionStatus;
+}
+
+class BorshCryptoHash extends Assignable {
+  array: Uint8Array;
+}
+
+class BorshCryptoHashes extends Assignable {
+  hashes: Uint8Array[];
 }
 
 // TODO when merging into NAJ, this likely gets combined with their SCHEMA
@@ -100,6 +128,53 @@ const SCHEMA = new Map<Class, any>([
     {
       kind: "struct",
       fields: [["bps", [BorshValidatorStakeView]]],
+    },
+  ],
+  [
+    BorshEmpty,
+    {
+      kind: "struct",
+      fields: [],
+    },
+  ],
+  [
+    BorshCryptoHash,
+    {
+      kind: "struct",
+      fields: [["hash", [32]]],
+    },
+  ],
+  [
+    BorshCryptoHashes,
+    {
+      kind: "struct",
+      fields: [["hashes", [[32]]]],
+    },
+  ],
+  [
+    BorshPartialExecutionStatus,
+    {
+      kind: "enum",
+      field: "enum",
+      values: [
+        ["unknown", BorshEmpty],
+        ["failure", BorshEmpty],
+        ["successValue", ["u8"]],
+        ["successReceiptId", [32]],
+      ],
+    },
+  ],
+  [
+    BorshPartialExecutionOutcome,
+    {
+      kind: "struct",
+      fields: [
+        ["receiptIds", [[32]]],
+        ["gasBurnt", "u64"],
+        ["tokensBurnt", "u128"],
+        ["executorId", "string"],
+        ["status", BorshPartialExecutionStatus],
+      ],
     },
   ],
 
@@ -321,9 +396,99 @@ function computeMerkleRoot(proof: LightClientProof): Buffer {
   return computeRoot(headerHash, proof.block_proof);
 }
 
+function computeOutcomeRoot(
+  outcomeWithId: ExecutionOutcomeWithIdView,
+  outcomeRootProof: MerklePath
+) {
+  // Generate outcome proof hash through borsh encoding
+  const receiptIds = outcomeWithId.outcome.receipt_ids.map((id) =>
+    bs58.decode(id)
+  );
+
+  const borshStatus = (
+    status: ExecutionStatus | ExecutionStatusBasic
+  ): BorshPartialExecutionStatus => {
+    if (status === ExecutionStatusBasic.Pending) {
+      throw new Error("Pending status is not supported");
+    } else if (status === ExecutionStatusBasic.Unknown) {
+      return new BorshPartialExecutionStatus({
+        unknown: {},
+      });
+    } else if (status === ExecutionStatusBasic.Failure || "Failure" in status) {
+      return new BorshPartialExecutionStatus({
+        failure: {},
+      });
+    } else if (status.SuccessValue) {
+      return new BorshPartialExecutionStatus({
+        successValue: bs58.decode(status.SuccessValue),
+      });
+    } else if (status.SuccessReceiptId) {
+      return new BorshPartialExecutionStatus({
+        successReceiptId: bs58.decode(status.SuccessReceiptId),
+      });
+    } else {
+      throw new Error(`Unexpected execution status ${status}`);
+    }
+  };
+  const partialExecOutcome: BorshPartialExecutionOutcome = {
+    receiptIds: receiptIds,
+    gasBurnt: outcomeWithId.outcome.gas_burnt,
+    // TODO missing declarations of object types in NAJ
+    tokensBurnt: (outcomeWithId.outcome as any).tokens_burnt,
+    executorId: (outcomeWithId.outcome as any).executor_id,
+    status: borshStatus(outcomeWithId.outcome.status),
+  };
+  const serializedOutcome = serialize(SCHEMA, partialExecOutcome);
+
+  const logsHashes: Uint8Array[] = outcomeWithId.outcome.logs.map((log) => {
+    return crypto.createHash("sha256").update(bs58.decode(log)).digest();
+  });
+  const outcomeHashes: Uint8Array[] = new Array(
+    bs58.decode(outcomeWithId.id),
+    serializedOutcome,
+    ...logsHashes
+  );
+
+  const outcomeSerialized = serialize(
+    SCHEMA,
+    new BorshCryptoHashes({ hashes: outcomeHashes })
+  );
+  const outcomeHash = crypto
+    .createHash("sha256")
+    .update(outcomeSerialized)
+    .digest();
+
+  // Generate shard outcome root
+  // computeRoot(sha256(borsh(outcome)), outcome.proof)
+  const outcomeShardRoot = computeRoot(outcomeHash, outcomeWithId.proof);
+
+  // Generate block outcome root
+  // computeRoot(sha256(borsh(shardOutcomeRoot)), outcomeRootProof)
+  const shardRootBorsh = serialize(
+    SCHEMA,
+    new BorshCryptoHash({ hash: outcomeShardRoot })
+  );
+  const shardRootHash = crypto
+    .createHash("sha256")
+    .update(shardRootBorsh)
+    .digest();
+
+  return computeRoot(shardRootHash, outcomeRootProof);
+}
+
 export function validateExecutionProof(proof: LightClientProof) {
   // Execution outcome root verification
-  // TODO
+  const blockOutcomeRoot = computeOutcomeRoot(
+    proof.outcome_proof,
+    proof.outcome_root_proof
+  );
+  if (
+    !blockOutcomeRoot.equals(
+      bs58.decode(proof.block_header_lite.inner_lite.outcome_root)
+    )
+  ) {
+    throw new Error("Block outcome root doesn't match proof");
+  }
 
   // Block merkle root verification
   const blockMerkleRoot = computeMerkleRoot(proof);
@@ -332,6 +497,6 @@ export function validateExecutionProof(proof: LightClientProof) {
       bs58.decode(proof.block_header_lite.inner_lite.block_merkle_root)
     )
   ) {
-    throw new Error("Block merkle root doesn't match");
+    throw new Error("Block merkle root doesn't match proof");
   }
 }
