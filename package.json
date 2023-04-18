@@ -23,6 +23,7 @@
     "dev": "pnpm build -w",
     "test": "jest test",
     "scripts:blocks": "ts-node scripts/block_validation.ts",
+    "scripts:proof": "ts-node scripts/proof_verification.ts",
     "scripts:blocks_random": "ts-node scripts/block_validation_random.ts"
   }
 }

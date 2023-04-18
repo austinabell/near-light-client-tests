@@ -413,17 +413,23 @@ function computeOutcomeRoot(
       throw new Error("Pending status is not supported");
     } else if (status === ExecutionStatusBasic.Unknown) {
       return new BorshPartialExecutionStatus({
-        unknown: {},
+        unknown: new BorshEmpty({}),
       });
     } else if (status === ExecutionStatusBasic.Failure || "Failure" in status) {
       return new BorshPartialExecutionStatus({
-        failure: {},
+        failure: new BorshEmpty({}),
       });
-    } else if (status.SuccessValue) {
+    } else if (
+      status.SuccessValue !== undefined &&
+      status.SuccessValue !== null
+    ) {
       return new BorshPartialExecutionStatus({
-        successValue: bs58.decode(status.SuccessValue),
+        successValue: Buffer.from(status.SuccessValue, "base64"),
       });
-    } else if (status.SuccessReceiptId) {
+    } else if (
+      status.SuccessReceiptId !== undefined &&
+      status.SuccessReceiptId !== null
+    ) {
       return new BorshPartialExecutionStatus({
         successReceiptId: bs58.decode(status.SuccessReceiptId),
       });
@@ -431,22 +437,27 @@ function computeOutcomeRoot(
       throw new Error(`Unexpected execution status ${status}`);
     }
   };
-  const partialExecOutcome: BorshPartialExecutionOutcome = {
-    receiptIds: receiptIds,
-    gasBurnt: outcomeWithId.outcome.gas_burnt,
-    // TODO missing declarations of object types in NAJ
-    tokensBurnt: (outcomeWithId.outcome as any).tokens_burnt,
-    executorId: (outcomeWithId.outcome as any).executor_id,
-    status: borshStatus(outcomeWithId.outcome.status),
-  };
-  const serializedOutcome = serialize(SCHEMA, partialExecOutcome);
+  const partialExecOutcome: BorshPartialExecutionOutcome =
+    new BorshPartialExecutionOutcome({
+      receiptIds: receiptIds,
+      gasBurnt: new BN(outcomeWithId.outcome.gas_burnt),
+      // TODO missing declarations of object types in NAJ
+      tokensBurnt: new BN((outcomeWithId.outcome as any).tokens_burnt),
+      executorId: (outcomeWithId.outcome as any).executor_id,
+      status: borshStatus(outcomeWithId.outcome.status),
+    });
+  const serializedPartialOutcome = serialize(SCHEMA, partialExecOutcome);
+  const partialOutcomeHash = crypto
+    .createHash("sha256")
+    .update(serializedPartialOutcome)
+    .digest();
 
   const logsHashes: Uint8Array[] = outcomeWithId.outcome.logs.map((log) => {
-    return crypto.createHash("sha256").update(bs58.decode(log)).digest();
+    return crypto.createHash("sha256").update(log).digest();
   });
   const outcomeHashes: Uint8Array[] = new Array(
     bs58.decode(outcomeWithId.id),
-    serializedOutcome,
+    partialOutcomeHash,
     ...logsHashes
   );
 
@@ -483,21 +494,23 @@ export function validateExecutionProof(proof: LightClientProof) {
     proof.outcome_proof,
     proof.outcome_root_proof
   );
-  if (
-    !blockOutcomeRoot.equals(
-      bs58.decode(proof.block_header_lite.inner_lite.outcome_root)
-    )
-  ) {
-    throw new Error("Block outcome root doesn't match proof");
+  const proofRoot = proof.block_header_lite.inner_lite.outcome_root;
+  if (!blockOutcomeRoot.equals(bs58.decode(proofRoot))) {
+    throw new Error(
+      `Block outcome root (${bs58.encode(
+        blockOutcomeRoot
+      )}) doesn't match proof (${proofRoot})}`
+    );
   }
 
   // Block merkle root verification
   const blockMerkleRoot = computeMerkleRoot(proof);
-  if (
-    !blockMerkleRoot.equals(
-      bs58.decode(proof.block_header_lite.inner_lite.block_merkle_root)
-    )
-  ) {
-    throw new Error("Block merkle root doesn't match proof");
+  const proofMerkleRoot = proof.block_header_lite.inner_lite.block_merkle_root;
+  if (!blockMerkleRoot.equals(bs58.decode(proofMerkleRoot))) {
+    throw new Error(
+      `Block merkle root (${bs58.encode(
+        blockMerkleRoot
+      )}) doesn't match proof (${proofMerkleRoot})}`
+    );
   }
 }
