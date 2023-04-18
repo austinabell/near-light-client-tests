@@ -198,6 +198,7 @@ function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
   return hash.digest();
 }
 
+// TODO maybe make this public
 function computeBlockHash(
   header: BorshBlockHeaderInnerLite,
   innerRestHash: Uint8Array,

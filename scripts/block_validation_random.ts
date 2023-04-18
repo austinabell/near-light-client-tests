@@ -12,27 +12,24 @@ async function main() {
   const height = stat.sync_info.latest_block_height;
   console.log("current height is " + height);
 
-  let minValid = height;
-  let maxInvalid = 0;
-  let firstEpochHeight;
   let nextBlock;
   let prevBlock;
 
   while (true) {
     try {
-      firstEpochHeight = Math.floor(Math.random() * height - 1);
+      const firstEpochHeight = Math.floor(Math.random() * height - 1);
       console.log("querying for block at height: " + firstEpochHeight);
       const firstBlock = await provider.block({ blockId: firstEpochHeight });
-      console.log("got block hash: " + firstBlock.header.hash);
+      //   console.log("got block hash: " + firstBlock.header.hash);
       prevBlock = await provider.nextLightClientBlock({
         last_block_hash: firstBlock.header.hash,
       });
-      console.log("last known: " + prevBlock.inner_lite.height);
+      //   console.log("last known: " + prevBlock.inner_lite.height);
       nextBlock = await provider.nextLightClientBlock({
         // TODO using prev block hash for convenience. Maybe there is a better way around this?
         last_block_hash: prevBlock.prev_block_hash,
       });
-      console.log("next block", nextBlock.inner_lite.height);
+      //   console.log("next block", nextBlock.inner_lite.height);
       if (!prevBlock.next_bps) {
         throw new Error("Rpc should include the next_bps field");
       }
@@ -40,10 +37,6 @@ async function main() {
       // This will throw an error if invalid
       validateLightClientBlock(prevBlock, prevBlock.next_bps, nextBlock);
       console.log(`validated block at height: ${nextBlock.inner_lite.height}`);
-      if (firstEpochHeight < minValid) {
-        console.log("NEW MIN VALID: " + firstEpochHeight);
-        minValid = firstEpochHeight;
-      }
     } catch (e) {
       console.warn("error: " + e);
       if (e.toString().includes("DB Not Found Error: BLOCK HEIGHT:")) {
@@ -51,11 +44,6 @@ async function main() {
         e.toString().includes("Next block producers hash doesn't match")
       ) {
         console.log("BPS MISMATCH: ", prevBlock.next_bps);
-      } else {
-        if (firstEpochHeight > maxInvalid) {
-          console.log("NEW MAX INVALID: " + firstEpochHeight);
-          maxInvalid = firstEpochHeight;
-        }
       }
       continue;
     }
