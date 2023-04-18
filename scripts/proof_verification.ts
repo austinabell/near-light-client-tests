@@ -44,14 +44,17 @@ async function main() {
   const successTxProof = await provider.lightClientProof(successTxRequest);
   //   console.log(JSON.stringify(successTxProof, null, 0));
   validateExecutionProof(successTxProof);
+  console.log("validated successTxProof");
   const successRecProof = await provider.lightClientProof(successRecRequest);
   validateExecutionProof(successRecProof);
+  console.log("validated successRecProof");
   const failTxProof = await provider.lightClientProof(failTxRequest);
   //   console.log(JSON.stringify(failTxProof, null, 0));
   validateExecutionProof(failTxProof);
   console.log("validated failTxProof");
   const failRecProof = await provider.lightClientProof(failRecRequest);
   validateExecutionProof(failRecProof);
+  console.log("validated failRecProof");
 }
 
 main();
