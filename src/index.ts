@@ -488,7 +488,10 @@ function computeOutcomeRoot(
   return computeRoot(shardRootHash, outcomeRootProof);
 }
 
-export function validateExecutionProof(proof: LightClientProof) {
+export function validateExecutionProof(
+  proof: LightClientProof,
+  merkleRoot: Buffer
+) {
   // Execution outcome root verification
   const blockOutcomeRoot = computeOutcomeRoot(
     proof.outcome_proof,
@@ -505,12 +508,11 @@ export function validateExecutionProof(proof: LightClientProof) {
 
   // Block merkle root verification
   const blockMerkleRoot = computeMerkleRoot(proof);
-  const proofMerkleRoot = proof.block_header_lite.inner_lite.block_merkle_root;
-  if (!blockMerkleRoot.equals(bs58.decode(proofMerkleRoot))) {
+  if (!blockMerkleRoot.equals(merkleRoot)) {
     throw new Error(
       `Block merkle root (${bs58.encode(
         blockMerkleRoot
-      )}) doesn't match proof (${proofMerkleRoot})}`
+      )}) doesn't match proof (${bs58.encode(merkleRoot)})}`
     );
   }
 }
