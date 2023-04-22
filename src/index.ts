@@ -198,18 +198,26 @@ function combineHash(h1: Uint8Array, h2: Uint8Array): Buffer {
   return hash.digest();
 }
 
-// TODO maybe make this public
-function computeBlockHash(
-  header: BorshBlockHeaderInnerLite,
-  innerRestHash: Uint8Array,
-  prevHash: Uint8Array
-): string {
-  const msg = serialize(SCHEMA, header);
+export function computeBlockHash(block: LightClientBlockLiteView): Buffer {
+  const header = block.inner_lite;
+  const borshHeader = new BorshBlockHeaderInnerLite({
+    height: new BN(header.height),
+    epoch_id: bs58.decode(header.epoch_id),
+    next_epoch_id: bs58.decode(header.next_epoch_id),
+    prev_state_root: bs58.decode(header.prev_state_root),
+    outcome_root: bs58.decode(header.outcome_root),
+    timestamp: new BN(header.timestamp_nanosec),
+    next_bp_hash: bs58.decode(header.next_bp_hash),
+    block_merkle_root: bs58.decode(header.block_merkle_root),
+  });
+  const msg = serialize(SCHEMA, borshHeader);
+  const innerRestHash = bs58.decode(block.inner_rest_hash);
+  const prevHash = bs58.decode(block.prev_block_hash);
   const innerLiteHash = crypto.createHash("sha256").update(msg).digest();
   const innerHash = combineHash(innerLiteHash, innerRestHash);
   const finalHash = combineHash(innerHash, prevHash);
 
-  return bs58.encode(finalHash);
+  return finalHash;
 }
 
 export function validateLightClientBlock(
@@ -220,29 +228,10 @@ export function validateLightClientBlock(
 ) {
   // Numbers for each step references the spec:
   // https://github.com/near/NEPs/blob/c7d72138117ed0ab86629a27d1f84e9cce80848f/specs/ChainSpec/LightClient.md
-  const innerRestHashDecoded = bs58.decode(lastKnownBlock.inner_rest_hash);
-  const prevHashDecoded = bs58.decode(lastKnownBlock.prev_block_hash);
-
-  const innerLiteView = lastKnownBlock.inner_lite;
-
-  const innerLite = new BorshBlockHeaderInnerLite({
-    height: new BN(innerLiteView.height),
-    epoch_id: bs58.decode(innerLiteView.epoch_id),
-    next_epoch_id: bs58.decode(innerLiteView.next_epoch_id),
-    prev_state_root: bs58.decode(innerLiteView.prev_state_root),
-    outcome_root: bs58.decode(innerLiteView.outcome_root),
-    timestamp: new BN(innerLiteView.timestamp_nanosec),
-    next_bp_hash: bs58.decode(innerLiteView.next_bp_hash),
-    block_merkle_root: bs58.decode(innerLiteView.block_merkle_root),
-  });
-  const newBlockHash = computeBlockHash(
-    innerLite,
-    innerRestHashDecoded,
-    prevHashDecoded
-  );
+  const newBlockHash = computeBlockHash(lastKnownBlock);
   const nextBlockHashDecoded = combineHash(
     bs58.decode(newBlock.next_block_inner_hash),
-    bs58.decode(newBlockHash)
+    newBlockHash
   );
 
   // (1)
@@ -490,7 +479,7 @@ function computeOutcomeRoot(
 
 export function validateExecutionProof(
   proof: LightClientProof,
-  merkleRoot: Buffer
+  merkleRoot: Uint8Array
 ) {
   // Execution outcome root verification
   const blockOutcomeRoot = computeOutcomeRoot(

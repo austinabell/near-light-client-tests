@@ -1,5 +1,7 @@
+import bs58 from "bs58";
 import { JsonRpcProvider } from "near-api-js/lib/providers";
 import { validateLightClientBlock } from "../lib";
+import { computeBlockHash } from "../src";
 
 async function main() {
   const provider = new JsonRpcProvider({
@@ -21,9 +23,10 @@ async function main() {
   let prevBlock = await provider.nextLightClientBlock({
     last_block_hash: firstBlock.header.hash,
   });
+  const bh = computeBlockHash(prevBlock);
   let nextBlock = await provider.nextLightClientBlock({
     // TODO using prev block hash for convenience. Maybe there is a better way around this?
-    last_block_hash: prevBlock.prev_block_hash,
+    last_block_hash: bs58.encode(bh),
   });
 
   while (
