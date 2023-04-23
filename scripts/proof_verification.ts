@@ -11,22 +11,17 @@ async function main() {
   const stat = await provider.status();
 
   const block = await provider.block({
-    blockId: stat.sync_info.latest_block_height,
+    blockId: stat.sync_info.latest_block_height - 100,
   });
 
-  const lightClientHead = block.header.last_final_block;
-
-  // TODO this isn't the block used for the merkle root, track down what is
-  const finalBlock = await provider.block({
-    blockId: lightClientHead,
-  });
+  const lightClientHead = block.header.hash;
 
   // Static txs pulled from explorer
   const successTxRequest = {
     type: IdType.Transaction,
     light_client_head: lightClientHead,
-    transaction_hash: "EjzavEJVd1XjFdAsbgY5itivGpu8Np1AgnHDzFHYvrtW",
-    sender_id: "token.sweat",
+    transaction_hash: "2vfvMowc3c6211uA6beyEJSDLg7eQdxy4v3QgMUPvAZY",
+    sender_id: "relay.aurora",
   };
   const successRecRequest = {
     type: IdType.Receipt,
@@ -48,29 +43,33 @@ async function main() {
   };
 
   const successTxProof = await provider.lightClientProof(successTxRequest);
+  //   console.log(JSON.stringify(successTxRequest, null, 0));
   //   console.log(JSON.stringify(successTxProof, null, 0));
+  //   console.log(
+  //     Buffer.from(bs58.decode(block.header.block_merkle_root)).toString("hex")
+  //   );
   validateExecutionProof(
     successTxProof,
-    bs58.decode(finalBlock.header.block_merkle_root)
+    bs58.decode(block.header.block_merkle_root)
   );
   console.log("validated successTxProof");
   const successRecProof = await provider.lightClientProof(successRecRequest);
   validateExecutionProof(
     successRecProof,
-    bs58.decode(finalBlock.header.block_merkle_root)
+    bs58.decode(block.header.block_merkle_root)
   );
   console.log("validated successRecProof");
   const failTxProof = await provider.lightClientProof(failTxRequest);
   //   console.log(JSON.stringify(failTxProof, null, 0));
   validateExecutionProof(
     failTxProof,
-    bs58.decode(finalBlock.header.block_merkle_root)
+    bs58.decode(block.header.block_merkle_root)
   );
   console.log("validated failTxProof");
   const failRecProof = await provider.lightClientProof(failRecRequest);
   validateExecutionProof(
     failRecProof,
-    bs58.decode(finalBlock.header.block_merkle_root)
+    bs58.decode(block.header.block_merkle_root)
   );
   console.log("validated failRecProof");
 }
