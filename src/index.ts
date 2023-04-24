@@ -281,7 +281,7 @@ export function validateLightClientBlock(
     );
 
     const approvalHeight: BN = new BN(newBlock.inner_lite.height + 2);
-    const approvalHeightLe = approvalHeight.toArrayLike(Uint8Array, "le", 8);
+    const approvalHeightLe = approvalHeight.toArrayLike(Buffer, "le", 8);
     const approvalMessage = new Uint8Array([
       ...approvalEndorsement,
       ...approvalHeightLe,
@@ -339,14 +339,14 @@ export function validateLightClientBlock(
 
 function blockHeaderInnerLiteHash(data: BlockHeaderInnerLiteView): Buffer {
   let hash = crypto.createHash("sha256");
-  hash.update(new BN(data.height).toArrayLike(Uint8Array, "le", 8));
+  hash.update(new BN(data.height).toArrayLike(Buffer, "le", 8));
   hash.update(bs58.decode(data.epoch_id));
   hash.update(bs58.decode(data.next_epoch_id));
   hash.update(bs58.decode(data.prev_state_root));
   hash.update(bs58.decode(data.outcome_root));
   hash.update(
     new BN(data.timestamp_nanosec || data.timestamp).toArrayLike(
-      Uint8Array,
+      Buffer,
       "le",
       8
     )
