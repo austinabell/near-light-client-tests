@@ -30,7 +30,6 @@ class BorshBlockHeaderInnerLite extends Assignable {
 }
 
 class BorshApprovalInner extends Enum {
-  // TODO NAJ doesn't have enum values as optional, figure out why
   endorsement?: Uint8Array;
   skip?: BN;
 }
@@ -222,7 +221,6 @@ export function computeBlockHash(block: LightClientBlockLiteView): Buffer {
 
 export function validateLightClientBlock(
   lastKnownBlock: LightClientBlockLiteView,
-  // TODO this might be a bit awkward to use, don't want to infer storage of epoch to bps mapping
   currentBlockProducers: ValidatorStakeView[],
   newBlock: NextLightClientBlockResponse
 ) {
@@ -277,7 +275,6 @@ export function validateLightClientBlock(
     const publicKey = PublicKey.fromString(blockProducers[i].public_key);
     const signature = bs58.decode(approval.slice(ED_PREFIX.length));
 
-    // TODO replace this manual borsh encoding with borsh utils
     const approvalEndorsement = serialize(
       SCHEMA,
       new BorshApprovalInner({ endorsement: nextBlockHashDecoded })
