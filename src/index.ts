@@ -291,7 +291,7 @@ export function validateLightClientBlock(
   }
 
   // (5)
-  const threshold = (totalStake * 2) / 3;
+  const threshold = totalStake.mul(new BN(2)).div(new BN(3));
   if (approvedStake <= threshold) {
     throw new Error("Approved stake does not exceed the 2/3 threshold");
   }
