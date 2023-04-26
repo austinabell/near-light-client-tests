@@ -25,7 +25,6 @@ async function main() {
   });
   const bh = computeBlockHash(prevBlock);
   let nextBlock = await provider.nextLightClientBlock({
-    // TODO using prev block hash for convenience. Maybe there is a better way around this?
     last_block_hash: bs58.encode(bh),
   });
 
