@@ -1,7 +1,7 @@
 import bs58 from "bs58";
 import { JsonRpcProvider } from "near-api-js/lib/providers";
 import { IdType } from "near-api-js/lib/providers/provider";
-import { validateExecutionProof } from "../lib";
+import { validateExecutionProof } from "near-api-js/lib/light-client";
 
 async function main() {
   const provider = new JsonRpcProvider({
@@ -48,29 +48,29 @@ async function main() {
   //   console.log(
   //     Buffer.from(bs58.decode(block.header.block_merkle_root)).toString("hex")
   //   );
-  validateExecutionProof(
-    successTxProof,
-    bs58.decode(block.header.block_merkle_root)
-  );
+  validateExecutionProof({
+    proof: successTxProof,
+    blockMerkleRoot: bs58.decode(block.header.block_merkle_root),
+  });
   console.log("validated successTxProof");
   const successRecProof = await provider.lightClientProof(successRecRequest);
-  validateExecutionProof(
-    successRecProof,
-    bs58.decode(block.header.block_merkle_root)
-  );
+  validateExecutionProof({
+    proof: successRecProof,
+    blockMerkleRoot: bs58.decode(block.header.block_merkle_root),
+  });
   console.log("validated successRecProof");
   const failTxProof = await provider.lightClientProof(failTxRequest);
   //   console.log(JSON.stringify(failTxProof, null, 0));
-  validateExecutionProof(
-    failTxProof,
-    bs58.decode(block.header.block_merkle_root)
-  );
+  validateExecutionProof({
+    proof: failTxProof,
+    blockMerkleRoot: bs58.decode(block.header.block_merkle_root),
+  });
   console.log("validated failTxProof");
   const failRecProof = await provider.lightClientProof(failRecRequest);
-  validateExecutionProof(
-    failRecProof,
-    bs58.decode(block.header.block_merkle_root)
-  );
+  validateExecutionProof({
+    proof: failRecProof,
+    blockMerkleRoot: bs58.decode(block.header.block_merkle_root),
+  });
   console.log("validated failRecProof");
 }
 

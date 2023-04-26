@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { validateLightClientBlock } from "../lib/index";
+import { lightClient } from "near-api-js";
 import { TestVector } from "./testVector";
 
 function runTestVector(testVectors: TestVector[]): void {
@@ -13,7 +13,11 @@ function runTestVector(testVectors: TestVector[]): void {
       expected: { is_valid, error },
     } = test;
     try {
-      validateLightClientBlock(previous_block, next_bps, new_block);
+      lightClient.validateLightClientBlock({
+        lastKnownBlock: previous_block,
+        currentBlockProducers: next_bps,
+        newBlock: new_block,
+      });
       console.log(`Test Case ${idx + 1}: PASSED`);
       passed++;
     } catch (error) {

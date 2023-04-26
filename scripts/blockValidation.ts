@@ -1,7 +1,9 @@
 import bs58 from "bs58";
 import { JsonRpcProvider } from "near-api-js/lib/providers";
-import { validateLightClientBlock } from "../lib";
-import { computeBlockHash } from "../src";
+import {
+  validateLightClientBlock,
+  computeBlockHash,
+} from "near-api-js/lib/light-client";
 
 async function main() {
   const provider = new JsonRpcProvider({
@@ -37,7 +39,11 @@ async function main() {
     }
 
     // This will throw an error if invalid
-    validateLightClientBlock(prevBlock, prevBlock.next_bps, nextBlock);
+    validateLightClientBlock({
+      lastKnownBlock: prevBlock,
+      currentBlockProducers: prevBlock.next_bps,
+      newBlock: nextBlock,
+    });
     console.log(`validated block at height: ${nextBlock.inner_lite.height}`);
 
     prevBlock = nextBlock;
