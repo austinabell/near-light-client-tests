@@ -40,7 +40,10 @@ function runTestVectors(testVectors: TestVector[]): void {
   console.log(`\nSummary: ${passed} PASSED, ${failed} FAILED`);
 }
 
-function getAllJsonFiles(dirPath: string, arrayOfFiles: string[] = []): string[] {
+function getAllJsonFiles(
+  dirPath: string,
+  arrayOfFiles: string[] = []
+): string[] {
   const files = readdirSync(dirPath);
 
   files.forEach((file) => {
@@ -57,7 +60,7 @@ function getAllJsonFiles(dirPath: string, arrayOfFiles: string[] = []): string[]
 const args = process.argv.slice(2);
 if (args.length !== 1 && args.length !== 2) {
   console.error(
-    "Usage: ts-node runTestVectors.ts (--all <directory> | --file <file_path>)"
+    "Usage: ts-node runBlockTestVectors.ts (--all <directory> | --file <file_path>)"
   );
   process.exit(1);
 }
