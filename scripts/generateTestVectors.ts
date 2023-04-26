@@ -2,7 +2,7 @@ import bs58 from "bs58";
 import { JsonRpcProvider } from "near-api-js/lib/providers";
 import { writeFileSync } from "fs";
 import { TestVector } from "./testVector";
-import { computeBlockHash } from "../lib";
+import { computeBlockHash } from "near-api-js/lib/light-client";
 
 async function generateTestVectors(
   startBlock: number,
@@ -37,13 +37,13 @@ async function generateTestVectors(
 
     testVectors.push({
       description: `Mainnet Block ${prevBlock.inner_lite.height}`,
+      expected: {
+        is_valid: true,
+      },
       params: {
         previous_block: prevBlock,
         next_bps: prevBlock.next_bps!,
         new_block: nextBlock,
-      },
-      expected: {
-        is_valid: true,
       },
     });
 

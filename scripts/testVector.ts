@@ -6,13 +6,13 @@ import {
 
 export interface TestVector {
   description: string;
+  expected: {
+    is_valid: boolean;
+    error?: string;
+  };
   params: {
     previous_block: LightClientBlockLiteView;
     next_bps: ValidatorStakeView[];
     new_block: NextLightClientBlockResponse;
-  };
-  expected: {
-    is_valid: boolean;
-    error?: string;
   };
 }

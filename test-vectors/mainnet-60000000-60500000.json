@@ -1,6 +1,9 @@
 [
   {
     "description": "Mainnet Block 60018676",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -2028,13 +2031,13 @@
         ],
         "prev_block_hash": "BWgWFh6RmeaxfixhHagzGuuZYsG5GxTmYn7QkedjTewR"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60061876",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -4067,13 +4070,13 @@
         ],
         "prev_block_hash": "CbUkd1wGBLNJA7vrQRoD97aQKq3T38L29QcpbMqePZ2h"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60105076",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -6119,13 +6122,13 @@
         ],
         "prev_block_hash": "9PuZoJmiNpWkYAbeCQpXA7YQ3WSC8dNJpgZwCdAhqFv3"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60148276",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -8165,13 +8168,13 @@
         ],
         "prev_block_hash": "5vwHp2taDLgK6xoHDpPSbSYnpxhbC8s58baX8YkivXf2"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60191476",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -10207,13 +10210,13 @@
         ],
         "prev_block_hash": "FhrfnfDRRcMB7wwXRp8o9gWpJyhz9hVGueMufX838zeU"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60234676",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -12260,13 +12263,13 @@
         ],
         "prev_block_hash": "8xno9hE9mwGTepyX2H2fgMq1oR58FhbbuiFdH8FLwWv5"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60277876",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -14311,13 +14314,13 @@
         ],
         "prev_block_hash": "DtHMTYDf5aYqcbfuHLVUEzE4XsA2bm1NZJnJxmeaXzGK"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60321076",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -16362,13 +16365,13 @@
         ],
         "prev_block_hash": "5Pm17YTTsL59bSNLYtGqtNFCCFLGGk991Dfms9jaayAn"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60364276",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -18414,13 +18417,13 @@
         ],
         "prev_block_hash": "4q7NrkBiPTbLnyLgYyezjNhdv1tiQTNS5XsyrjhYm8EB"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60407477",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -20465,13 +20468,13 @@
         ],
         "prev_block_hash": "HG9L1dhm5gQ9sgLUeL4ruxWBbVdCvXMvD5EMfEf2jjGu"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60450677",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -22515,13 +22518,13 @@
         ],
         "prev_block_hash": "Ddmg3b7SWSHPcsRjTgfwwGtqDraV5ASKkER7XcBm2XfM"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   },
   {
     "description": "Mainnet Block 60493877",
+    "expected": {
+      "is_valid": true
+    },
     "params": {
       "previous_block": {
         "approvals_after_next": [
@@ -24566,9 +24569,6 @@
         ],
         "prev_block_hash": "4tt1EEykbNtx9wjTx9vYtfR8LYbjDU8zgRj9gFM1Kt6E"
       }
-    },
-    "expected": {
-      "is_valid": true
     }
   }
 ]
