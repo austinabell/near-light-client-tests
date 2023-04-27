@@ -1,24 +1,24 @@
+import bs58 from "bs58";
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 import { lightClient } from "near-api-js";
-import { BlockTestVector } from "./testVector";
+import { ExecutionTestVector } from "./testVector";
 
-function runTestVectors(testVectors: BlockTestVector[]): void {
+function runTestVectors(testVectors: ExecutionTestVector[]): void {
   let passed = 0;
   let failed = 0;
 
   testVectors.forEach((test, idx) => {
     const {
       description,
-      params: { previous_block, next_bps, new_block },
+      params: { proof, block_merkle_root },
       expected: { is_valid, error },
     } = test;
     let wasValid: boolean;
     try {
-      lightClient.validateLightClientBlock({
-        lastKnownBlock: previous_block,
-        currentBlockProducers: next_bps,
-        newBlock: new_block,
+      lightClient.validateExecutionProof({
+        proof,
+        blockMerkleRoot: bs58.decode(block_merkle_root),
       });
       wasValid = true;
     } catch (error) {
@@ -60,7 +60,7 @@ function getAllJsonFiles(
 const args = process.argv.slice(2);
 if (args.length !== 1 && args.length !== 2) {
   console.error(
-    "Usage: ts-node runBlockTestVectors.ts (--all <directory> | --file <file_path>)"
+    "Usage: ts-node runExecutionTestVectors.ts (--all <directory> | --file <file_path>)"
   );
   process.exit(1);
 }
@@ -68,16 +68,16 @@ if (args.length !== 1 && args.length !== 2) {
 const [flag, path] = args;
 
 if (flag === "--all") {
-  const jsonFiles = getAllJsonFiles("./test-vectors/blocks");
+  const jsonFiles = getAllJsonFiles("./test-vectors/executions");
   jsonFiles.forEach((file) => {
     console.log("\n\tTesting file: ", file);
     const testVectorsJson = readFileSync(file, "utf-8");
-    const testVectors = JSON.parse(testVectorsJson) as BlockTestVector[];
+    const testVectors = JSON.parse(testVectorsJson) as ExecutionTestVector[];
     runTestVectors(testVectors);
   });
 } else if (flag === "--file") {
   const testVectorsJson = readFileSync(path, "utf-8");
-  const testVectors = JSON.parse(testVectorsJson) as BlockTestVector[];
+  const testVectors = JSON.parse(testVectorsJson) as ExecutionTestVector[];
   runTestVectors(testVectors);
 } else {
   console.error("Invalid flag. Use --all or --file.");

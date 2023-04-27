@@ -1,10 +1,11 @@
 import {
   LightClientBlockLiteView,
+  LightClientProof,
   NextLightClientBlockResponse,
   ValidatorStakeView,
 } from "near-api-js/lib/providers/provider";
 
-export interface TestVector {
+export interface BlockTestVector {
   description: string;
   expected: {
     is_valid: boolean;
@@ -15,4 +16,16 @@ export interface TestVector {
     next_bps: ValidatorStakeView[];
     new_block: NextLightClientBlockResponse;
   };
+}
+
+export interface ExecutionTestVector {
+  description: string;
+  expected: {
+    is_valid: boolean;
+    error?: string;
+  };
+  params: {
+    proof: LightClientProof;
+    block_merkle_root: string;
+  }
 }

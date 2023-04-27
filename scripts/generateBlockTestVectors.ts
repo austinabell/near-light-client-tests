@@ -1,7 +1,7 @@
 import bs58 from "bs58";
 import { JsonRpcProvider } from "near-api-js/lib/providers";
 import { writeFileSync } from "fs";
-import { TestVector } from "./testVector";
+import { BlockTestVector } from "./testVector";
 import { computeBlockHash } from "near-api-js/lib/light-client";
 
 async function generateTestVectors(
@@ -13,7 +13,7 @@ async function generateTestVectors(
     url: "https://archival-rpc.mainnet.near.org",
   });
 
-  const testVectors: TestVector[] = [];
+  const testVectors: BlockTestVector[] = [];
 
   const protocolConfig: any = await provider.experimental_protocolConfig({
     finality: "final",
@@ -56,7 +56,7 @@ async function generateTestVectors(
 const args = process.argv.slice(2);
 if (args.length !== 3) {
   console.error(
-    "Usage: ts-node generateTestVectors.ts <start_block> <end_block> <output_file>"
+    "Usage: ts-node generateBlockTestVectors.ts <start_block> <end_block> <output_file>"
   );
   process.exit(1);
 }
