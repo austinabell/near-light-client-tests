@@ -15,6 +15,7 @@ function runTestVectors(testVectors: ExecutionTestVector[]): void {
       expected: { is_valid, error },
     } = test;
     let wasValid: boolean;
+    let executionError: Error | undefined;
     try {
       lightClient.validateExecutionProof({
         proof,
@@ -23,12 +24,16 @@ function runTestVectors(testVectors: ExecutionTestVector[]): void {
       wasValid = true;
     } catch (error) {
       wasValid = false;
+      executionError = error;
     }
     if (wasValid !== is_valid) {
+      const prefix = `Test Case at index ${idx} "${description}": FAILED - expected`;
       console.log(
-        `Test Case at index ${idx} "${description}": FAILED - expected ${
-          is_valid ? "valid" : "invalid"
-        } result${error ? ` with error "${error}"` : ""}`
+        `${prefix} ${
+          is_valid
+            ? `valid, got error ${executionError}`
+            : `invalid result${error ? ` with error "${error}"` : ""}`
+        }`
       );
       failed++;
     } else {
