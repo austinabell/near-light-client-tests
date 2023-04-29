@@ -77,5 +77,345 @@
       },
       "block_merkle_root": "3MPAfhcDdADXGzvHyPHcaeN6xBZonbDQn1VXsBJHUJsL"
     }
+  },
+  {
+    "description": "rainbow bridge proof3",
+    "expected": {
+      "is_valid": true
+    },
+    "params": {
+      "proof": {
+        "outcome_proof": {
+          "proof": [
+            {
+              "hash": "5yzGvaYdHfq4kZeoV6vnygvQd4Z683LXRkAXH1KDeG3U",
+              "direction": "Right"
+            }
+          ],
+          "block_hash": "BUCRNeND73mVaFbwmLg7zduM95LHtN2vzK2HHvJNWEGM",
+          "id": "64J1o71ngkx2urRxj5UYa64v9fWT7yf1HxGHUYgthoSC",
+          "outcome": {
+            "logs": [],
+            "receipt_ids": ["DzFs47QNEdibR1MTjAhUmigeJL5wo9sNdG8zgpGVN9B3"],
+            "gas_burnt": 3633100297168,
+            "tokens_burnt": "18165501485840000",
+            "executor_id": "nearfuntoken",
+            "status": {
+              "SuccessValue": "WyIxIixbMTk2LDE5OSw3MywxMjcsMTkwLDI2LDEzNiwxMDQsNjUsMTYxLDE0OSwxNjUsMjE0LDM0LDIwNSw5Niw1LDYwLDE5LDExOF1d"
+            }
+          }
+        },
+        "outcome_root_proof": [],
+        "block_header_lite": {
+          "prev_block_hash": "65WBPSVpqtfSrLypahveYzxs1C52AGexKVjqBrMoxWRn",
+          "inner_rest_hash": "22fymMDcV7YdKZHwvxH8kxbZVFdHh3MEmNXT4t9eWMFf",
+          "inner_lite": {
+            "height": 1699,
+            "epoch_id": "8zEcgopfVM1xbkd5jfYu9Mpyd7GF76RPBXKshheqXBMX",
+            "next_epoch_id": "4VGtNxYqDFfgKSQ7b6VjYAFSzN17sKNm8pFhHnL2H8vJ",
+            "prev_state_root": "BWChofcus3fmDTj5zJWZxRbdaUiBWLUGWDpyaRXfQjui",
+            "outcome_root": "EPVTqyz9tKwcCXcyENZNZaBzcrN5mR1PrH2vHEZCJJkr",
+            "timestamp": "1593379656945908000",
+            "next_bp_hash": "BKD5rntrpPTgf9FtfVgdz9cDkFJCrwag77pGDAJtynu1",
+            "block_merkle_root": "FvvEfD3e7r3YkVKNMWHqB1QwvmnXg53Y4aVcW2fhnCkZ"
+          }
+        },
+        "block_proof": [
+          {
+            "hash": "J2CZD4NxihHFKG52U2yKuxgk6DnYcgwQhXfEy9j9HAeM",
+            "direction": "Right"
+          },
+          {
+            "hash": "3eHf57igSgyiFLHFauyMPiR6hEps7WZZGPVDunskYE9n",
+            "direction": "Left"
+          },
+          {
+            "hash": "Ad9aFkPwy6bavwEwrH8oRz9WAbofJMqp7XGrGyuHLmnj",
+            "direction": "Right"
+          },
+          {
+            "hash": "Ekn1Ze5UoYJsnxnJQeXZdvgtaVZG8mPubsftTEBSKr72",
+            "direction": "Left"
+          },
+          {
+            "hash": "9JRBfCoM37tGoeYzW5r31xhjajQouXhXFLozSCLShXQZ",
+            "direction": "Left"
+          },
+          {
+            "hash": "5PrDip98cCtboHfLXG53waLHHVLpmMA4jEwAH22dqECa",
+            "direction": "Left"
+          },
+          {
+            "hash": "8U29oeQgdyQ2dRfuQ6vnZMyxYuX4UbCoT4bwL44XC93U",
+            "direction": "Left"
+          }
+        ]
+      },
+      "block_merkle_root": "sruDfbrdEwZRLdr3KUg1vSSJgBQku5Q1Qbhya3AZRbJ"
+    }
+  },
+  {
+    "description": "rainbow bridge proof4",
+    "expected": {
+      "is_valid": true
+    },
+    "params": {
+      "proof": {
+        "outcome_proof": {
+          "proof": [
+            {
+              "hash": "765xoBEaDoGv3GGZo72WjSg7e8ZJdkLam5zTtX6osWcK",
+              "direction": "Right"
+            }
+          ],
+          "block_hash": "37jihqoUDFY3agpY6Z5fQt43DUmAu2XfKDMuLC6T93Wz",
+          "id": "9dPJ2s3uTVWo8p48KLJ6YgJW5tJeFTzJf5R3wtzCtPZ2",
+          "outcome": {
+            "logs": [],
+            "receipt_ids": ["7Jkh8hBpM9NRq9YpWVXG7rJQmrELHSkdBpc4Y1uj7s9"],
+            "gas_burnt": 3633015402031,
+            "tokens_burnt": "18165077010155000",
+            "executor_id": "nearfuntoken",
+            "status": {
+              "SuccessValue": "WyIxIixbMjM2LDEzOSwyMjUsMTY1LDk5LDMsMTAwLDQxLDQ2LDg2LDIwOCwxNyw0MSwyMzIsMjM4LDEzOCwxNDksMTIwLDIxNSwyMTZdXQ=="
+            }
+          }
+        },
+        "outcome_root_proof": [],
+        "block_header_lite": {
+          "prev_block_hash": "8neByRWy6wqoBpPGz46VdszEr7XhfLmBw3QSmvzVVELp",
+          "inner_rest_hash": "3kJvpH91eZrLheYATduYUjmVkceuLksrRhaLqgXoKkmt",
+          "inner_lite": {
+            "height": 5563,
+            "epoch_id": "89ja3wyoPQC2Jkhe7prY1Z7dEh7zW5552jBVcefSwTTQ",
+            "next_epoch_id": "9yUKBU6NhwLf5VRaifRcSFeczSXSf2LSfCoMWTBwdRNf",
+            "prev_state_root": "5evKCqhiXFSxUBPy288QVvJFRm8ecibCNf8P1EGZZFjV",
+            "outcome_root": "9bMTQhvq2Jk2yz6UcZaotQTy5v3eKntSwxdfa7ur73gU",
+            "timestamp": "1593387441646721000",
+            "next_bp_hash": "5vpAs3FW6qcg8LL8iDN1Qpy93xEh1Hu116K5S5o6LNzx",
+            "block_merkle_root": "9mToyaNyNYqzn5bj3WcGmEmgToeCuaHvhiPZjW1CMCuW"
+          }
+        },
+        "block_proof": []
+      },
+      "block_merkle_root": "37jihqoUDFY3agpY6Z5fQt43DUmAu2XfKDMuLC6T93Wz"
+    }
+  },
+  {
+    "description": "rainbow bridge proof5",
+    "expected": {
+      "is_valid": true
+    },
+    "params": {
+      "proof": {
+        "outcome_proof": {
+          "proof": [],
+          "block_hash": "836bGij79WLpoGTJfMS7wHyeNDzcrR6Fjcnv7k5s35Zs",
+          "id": "C7bVNak4z9JQgXrQLS5ZAotqyJHCfD8ntgHorMaLVCFN",
+          "outcome": {
+            "logs": [],
+            "receipt_ids": ["Bt88L3Zw5HiKd21VQJHBtPMqNk62CEbomD6zzJRQrFrG"],
+            "gas_burnt": 4328442536275,
+            "tokens_burnt": "4328442536275000000000",
+            "executor_id": "nearfuntoken",
+            "status": {
+              "SuccessValue": "AQAAAAAAAAAAAAAAAAAAAOyL4aVjA2QpLlbQESno7oqVeNfY"
+            }
+          }
+        },
+        "outcome_root_proof": [],
+        "block_header_lite": {
+          "prev_block_hash": "3Ygc9DBL6L3eZkfqjC39yoqpLdtrFa73v1Pij8WaLMXP",
+          "inner_rest_hash": "CDu5ma6FyugzXNJFgZLvrqJ6QchmnEsuC9ybjx8uf4Ve",
+          "inner_lite": {
+            "height": 382,
+            "epoch_id": "JAHuDz5JnQ8AR2bsX8iYjRMR6GUh66qsa4ikUCkmJVKF",
+            "next_epoch_id": "3eBVUeAYLVNQCQGiQLX7m4VSdYr8L17m5ZtMoHLtsJTi",
+            "prev_state_root": "GctVMceieDngovPKdnGwza1pDjX3L6c4XB9Gg72QdtUr",
+            "outcome_root": "9gu8iYjW89gw9HC2Y3gh74mt8h1i6WXkxGyHyGRQnXgD",
+            "timestamp": 1595963616139902200,
+            "timestamp_nanosec": "1595963616139902322",
+            "next_bp_hash": "HV5FPYQ9sPbB6MrtKcpjyiTfpLRMRqH8YLL2VQ9FrGU4",
+            "block_merkle_root": "CxbeXAcVWyygiQzojvHER832pxrZ9KLcSZNF7rLnkN1T"
+          }
+        },
+        "block_proof": [
+          {
+            "hash": "3fzvjNT4ZHrMwXg5nweVoEsLrRfHwXcb7Q5bEKpsfEHo",
+            "direction": "Right"
+          },
+          {
+            "hash": "5vMJodboQKRgrtFb2pGaKDfHC5kAPTxKtnHoxVNm2oAk",
+            "direction": "Left"
+          },
+          {
+            "hash": "7xgpkyrDo61vUTzZz2jjF4HogGrUsaTG4fo26jUj3p83",
+            "direction": "Left"
+          },
+          {
+            "hash": "8nTpPqjbLKadmGszN4WffFscYAfEYPq796nprPNXUAjn",
+            "direction": "Left"
+          },
+          {
+            "hash": "G5XQf9jzSuwmHGqJfoapDjZBkeQ7mBH7vS8dGfusRQqG",
+            "direction": "Left"
+          },
+          {
+            "hash": "HdNY8yxMyZM2nxxV3XF5FbbiR6J5AoA2CxNbyYWEe4aG",
+            "direction": "Left"
+          },
+          {
+            "hash": "76idRjn59X54cnSKUxqUtRygeqzaxDsCE7frJ57avbT9",
+            "direction": "Left"
+          },
+          {
+            "hash": "ArxmcYkRzQaKEPGTFE4mySbzPu6qPQ7X5gtbNEiWtKb6",
+            "direction": "Left"
+          }
+        ]
+      },
+      "block_merkle_root": "CRqhRcE9PvLRLjMnJJpsk3uZtKKphenDGArUWt1FTr8F"
+    }
+  },
+  {
+    "description": "rainbow bridge proof6",
+    "expected": {
+      "is_valid": true
+    },
+    "params": {
+      "proof": {
+        "outcome_proof": {
+          "proof": [],
+          "block_hash": "DJ7CrNVFWG9xRUddbDB2N3o1tgFzqh2zL9PyjVgWhTr1",
+          "id": "7UGbrQMEmhCUS5uSitiqDLBYpnuu13hzxJVDBRMU33JK",
+          "outcome": {
+            "logs": [],
+            "receipt_ids": ["2NJvxcFsUmYtfecMe5dAsYbK27efj7gMx5btq6UvWhrh"],
+            "gas_burnt": 4326379475896,
+            "tokens_burnt": "4326379475896000000000",
+            "executor_id": "nearfuntoken",
+            "status": {
+              "SuccessValue": "AQAAAAAAAAAAAAAAAAAAAOyL4aVjA2QpLlbQESno7oqVeNfY"
+            }
+          }
+        },
+        "outcome_root_proof": [],
+        "block_header_lite": {
+          "prev_block_hash": "3xGtPdbfL6JbJ2qxf83GVjfuVgjhnUxGryz3RDjo9DGw",
+          "inner_rest_hash": "C4RVt5Vfp6AJvuM43Q4PaM3RCD9VGoXFCS7Q9DyR4LWF",
+          "inner_lite": {
+            "height": 358,
+            "epoch_id": "G2zVpfirbS8mDpkqhQXvkWfn2BPyJK7AyGtdkbfmmWSC",
+            "next_epoch_id": "FUJuQchgouiJVgdQmnXb2eXHY2ZwLKc4iJmUTGaZ1CEA",
+            "prev_state_root": "4Xi5gd345XM3KXmUKL7JB8zuWEzhEnNdt69kq91Fwcxw",
+            "outcome_root": "9gbMSq8kPPvnrUjPEqMVq6vMSP12scW4vnHY3cn5uXsP",
+            "timestamp": 1595961718661674000,
+            "timestamp_nanosec": "1595961718661674000",
+            "next_bp_hash": "DBqtF8zBxVgR9xpu9uVr3fikjwasUmntV6aruR3u8CYe",
+            "block_merkle_root": "8BLeevKH5iWxmWyGwKwghFkxG9TxYqucD72BitMvzDZD"
+          }
+        },
+        "block_proof": [
+          {
+            "hash": "7MHvRCw9YCptNxpcYNvnfnndygQniNsKC2nTgeusArcV",
+            "direction": "Right"
+          },
+          {
+            "hash": "7Cyx5oWucX6pz5GRXPEneBCHSezCaG5Zq26nkp8zSbUb",
+            "direction": "Left"
+          },
+          {
+            "hash": "AZFaMDqLKEUe5qmzWyaw4CV4z3VMWbtE4BmbJhpRn6jy",
+            "direction": "Left"
+          },
+          {
+            "hash": "7Y3YueQZS2X21DocNsQcXXtSxcjEjawxgxd4o6xu9M2E",
+            "direction": "Right"
+          },
+          {
+            "hash": "9GoDSqLs53L5KY5KRuJRK8D39MCJvcdD3JzzAwwXR91q",
+            "direction": "Right"
+          },
+          {
+            "hash": "DcGqQCdBUkGS8xxarpZSyCiWCKTzLKQtPydkXeBsvQxf",
+            "direction": "Left"
+          },
+          {
+            "hash": "9gVqrMoPeTqWFCXxZp8gBDXpsvCdqLiE3V3DjZUXEw2a",
+            "direction": "Left"
+          },
+          {
+            "hash": "BqrgC11cz1TKZdX76FRXEhuZLL7NkyXg48PSkxJJh1yM",
+            "direction": "Left"
+          }
+        ]
+      },
+      "block_merkle_root": "EkCsgekRNn6nQmwS76JP8j8TmjKd8oABhWFZizqFZ2Xn"
+    }
+  },
+  {
+    "description": "rainbow bridge proof<",
+    "expected": {
+      "is_valid": true
+    },
+    "params": {
+      "proof": {
+        "block_header_lite": {
+          "inner_lite": {
+            "block_merkle_root": "4a2WszqBELxvAofktYKEyBbWd5nmk6d7cVVQjpw6n1Du",
+            "epoch_id": "97xWJUp824sUqU1yDRafh4s8skEPbuQFH8vZCNjt42rW",
+            "height": 93700916,
+            "next_bp_hash": "Ac4KGViamyvyDpr24WbRicbBXsX5QJBDWCPNQFBwewT6",
+            "next_epoch_id": "FXat5DZJXpbvDxRgmVzNWvs2d912qEecDLpQE5MVnvvN",
+            "outcome_root": "CiNqbgEuJYYnzBakmRTe96QtWrLQHCYDtTXGSnuftwPD",
+            "prev_state_root": "Aok5ArFiAnvQXF3JAwpP8cR1osVjqZNqdgcVqpiNhiEB",
+            "timestamp": 1656592785165079445,
+            "timestamp_nanosec": "1656592785165079445"
+          },
+          "inner_rest_hash": "GA98ZMw2NpAx8nywwuYWgjRojhFXDeCGabcmAocFKsCp",
+          "prev_block_hash": "DVoSRXYr6Jv9txKV9dRrG9CtBSosTZbiNHq2FrWKuXcd"
+        },
+        "block_proof": [],
+        "outcome_proof": {
+          "block_hash": "9no8PifBxHHaQKeFuCKuXsqjp5UkkvGKBtMsyuJ5nwLp",
+          "id": "FKTMosGgNGiDZtk7mTj94oXjwDWqWSNbUBCMrntqzi6Q",
+          "outcome": {
+            "executor_id": "relay.aurora",
+            "gas_burnt": 2428249682298,
+            "logs": [],
+            "metadata": {
+              "gas_profile": null,
+              "version": 1
+            },
+            "receipt_ids": ["HG6KENeJALh3csgmNFwMazonwo7c4hBddW3uQeuGJT3p"],
+            "status": {
+              "SuccessReceiptId": "HG6KENeJALh3csgmNFwMazonwo7c4hBddW3uQeuGJT3p"
+            },
+            "tokens_burnt": "242824968229800000000"
+          },
+          "proof": [
+            {
+              "direction": "Right",
+              "hash": "EtB1m4bgTioP5ErdbLSGR3xxtMTH5YEUtELE9YBGxwdp"
+            },
+            {
+              "direction": "Right",
+              "hash": "6MqdtZgQiMzFDgDiG7uP4kYsehJohSbSRfmkGV6oiuja"
+            }
+          ]
+        },
+        "outcome_root_proof": [
+          {
+            "direction": "Left",
+            "hash": "AEp6nNheh3aw11fU2fcydbPsLoNpcxHSERbk8XvaprSc"
+          },
+          {
+            "direction": "Left",
+            "hash": "9iXnsvK56hm1DDegqom4vJBRQ3iKmM6HF1b1FY57bVjV"
+          }
+        ]
+      },
+      "block_merkle_root": "9no8PifBxHHaQKeFuCKuXsqjp5UkkvGKBtMsyuJ5nwLp"
+    }
   }
 ]
