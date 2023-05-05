@@ -3,6 +3,7 @@ import { JsonRpcProvider } from "near-api-js/lib/providers";
 import { writeFileSync } from "fs";
 import { BlockTestVector } from "./testVector";
 import { computeBlockHash } from "near-api-js/lib/light-client";
+import { LightClientBlockLiteView } from "near-api-js/lib/providers/provider";
 
 async function generateTestVectors(
   startBlock: number,
@@ -12,18 +13,21 @@ async function generateTestVectors(
   const provider = new JsonRpcProvider({
     url: "https://archival-rpc.mainnet.near.org",
   });
+  console.log("generating vectors");
 
   const testVectors: BlockTestVector[] = [];
 
   const protocolConfig: any = await provider.experimental_protocolConfig({
     finality: "final",
   });
+  console.log("got config");
 
   // Bit hacky, but retrieves a block from the previous epoch to more easily
   // get the light client data more easily. (RPC is a bit limiting)
   const firstBlock = await provider.block({
     blockId: startBlock - protocolConfig.epoch_length,
   });
+  console.log("got a block");
 
   let prevBlock = await provider.nextLightClientBlock({
     last_block_hash: firstBlock.header.hash,
@@ -35,13 +39,20 @@ async function generateTestVectors(
       last_block_hash: bs58.encode(computeBlockHash(prevBlock)),
     });
 
+    // Only need a subset of the data stored in the vector
+    const previous_block: LightClientBlockLiteView = {
+      prev_block_hash: prevBlock.prev_block_hash,
+      inner_rest_hash: prevBlock.inner_rest_hash,
+      inner_lite: prevBlock.inner_lite,
+    }
+
     testVectors.push({
       description: `Mainnet Block ${prevBlock.inner_lite.height}`,
       expected: {
         is_valid: true,
       },
       params: {
-        previous_block: prevBlock,
+        previous_block,
         next_bps: prevBlock.next_bps!,
         new_block: nextBlock,
       },
