@@ -10,7 +10,7 @@ function runTestVectors(testVectors: BlockTestVector[]): void {
   testVectors.forEach((test, idx) => {
     const {
       description,
-      params: { previous_block, next_bps, new_block },
+      params: { previous_block, current_bps, new_block },
       expected: { is_valid, error },
     } = test;
     let wasValid: boolean;
@@ -18,7 +18,7 @@ function runTestVectors(testVectors: BlockTestVector[]): void {
     try {
       lightClient.validateLightClientBlock({
         lastKnownBlock: previous_block,
-        currentBlockProducers: next_bps,
+        currentBlockProducers: current_bps,
         newBlock: new_block,
       });
       wasValid = true;

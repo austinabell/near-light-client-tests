@@ -13,14 +13,27 @@ function cleanTestVector(testVector: BlockTestVector): BlockTestVector {
     inner_lite,
   };
 
+  if ((testVector.params as any).next_bps) {
+	testVector.params.current_bps = (testVector.params as any).next_bps;
+	delete (testVector.params as any).next_bps;
+  }
+
   testVector.params.previous_block = cleanedPreviousBlock;
 
-  return testVector;
+  return {
+	description: testVector.description,
+	expected: testVector.expected,
+	params: {
+	  previous_block: cleanedPreviousBlock,
+	  current_bps: testVector.params.current_bps || (testVector.params as any).next_bps,
+	  new_block: testVector.params.new_block,
+	},
+  };
 }
 
 const args = process.argv.slice(2);
 if (args.length !== 1) {
-  console.error("Usage: ts-node cleanTestVectors.ts <file_path>");
+  console.error("Usage: ts-node cleanBlockVector.ts <file_path>");
   process.exit(1);
 }
 

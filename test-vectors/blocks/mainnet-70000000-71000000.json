@@ -20,7 +20,7 @@
           "timestamp_nanosec": "1658060627469866654"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -1365,7 +1365,7 @@
           "timestamp_nanosec": "1658112065460846764"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -2712,7 +2712,7 @@
           "timestamp_nanosec": "1658163618823695535"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -4059,7 +4059,7 @@
           "timestamp_nanosec": "1658214726044976832"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -5407,7 +5407,7 @@
           "timestamp_nanosec": "1658266298534396972"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -6753,7 +6753,7 @@
           "timestamp_nanosec": "1658318494710348837"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -8099,7 +8099,7 @@
           "timestamp_nanosec": "1658372407924879927"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -9446,7 +9446,7 @@
           "timestamp_nanosec": "1658425241143882463"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -10792,7 +10792,7 @@
           "timestamp_nanosec": "1658478064468413881"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -12137,7 +12137,7 @@
           "timestamp_nanosec": "1658530459363971260"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -13483,7 +13483,7 @@
           "timestamp_nanosec": "1658582280844134076"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -14828,7 +14828,7 @@
           "timestamp_nanosec": "1658634361448128259"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -16174,7 +16174,7 @@
           "timestamp_nanosec": "1658686628173837842"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -17519,7 +17519,7 @@
           "timestamp_nanosec": "1658738821029172222"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -18865,7 +18865,7 @@
           "timestamp_nanosec": "1658791654499671446"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -20211,7 +20211,7 @@
           "timestamp_nanosec": "1658844318088101356"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -21557,7 +21557,7 @@
           "timestamp_nanosec": "1658897322275443367"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -22903,7 +22903,7 @@
           "timestamp_nanosec": "1658950076388247637"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -24249,7 +24249,7 @@
           "timestamp_nanosec": "1659008353039050816"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -25595,7 +25595,7 @@
           "timestamp_nanosec": "1659063843311531543"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -26942,7 +26942,7 @@
           "timestamp_nanosec": "1659118115953387056"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -28289,7 +28289,7 @@
           "timestamp_nanosec": "1659171961722013804"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",
@@ -29635,7 +29635,7 @@
           "timestamp_nanosec": "1659224451616792630"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "bzam6yjpnfnxsdmjf6pw.poolv1.near",
           "public_key": "ed25519:2ZJqaaCAisK4u8E2i611zFfvNmrvevovnU3M7SpGHkLY",

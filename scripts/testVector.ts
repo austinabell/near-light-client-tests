@@ -13,7 +13,7 @@ export interface BlockTestVector {
   };
   params: {
     previous_block: LightClientBlockLiteView;
-    next_bps: ValidatorStakeView[];
+    current_bps: ValidatorStakeView[];
     new_block: NextLightClientBlockResponse;
   };
 }

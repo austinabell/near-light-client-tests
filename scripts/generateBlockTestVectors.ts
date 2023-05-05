@@ -13,21 +13,18 @@ async function generateTestVectors(
   const provider = new JsonRpcProvider({
     url: "https://archival-rpc.mainnet.near.org",
   });
-  console.log("generating vectors");
 
   const testVectors: BlockTestVector[] = [];
 
   const protocolConfig: any = await provider.experimental_protocolConfig({
     finality: "final",
   });
-  console.log("got config");
 
   // Bit hacky, but retrieves a block from the previous epoch to more easily
   // get the light client data more easily. (RPC is a bit limiting)
   const firstBlock = await provider.block({
     blockId: startBlock - protocolConfig.epoch_length,
   });
-  console.log("got a block");
 
   let prevBlock = await provider.nextLightClientBlock({
     last_block_hash: firstBlock.header.hash,
@@ -53,7 +50,7 @@ async function generateTestVectors(
       },
       params: {
         previous_block,
-        next_bps: prevBlock.next_bps!,
+        current_bps: prevBlock.next_bps!,
         new_block: nextBlock,
       },
     });

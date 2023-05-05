@@ -20,7 +20,7 @@
           "timestamp_nanosec": "1676167866013291323"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -1365,7 +1365,7 @@
           "timestamp_nanosec": "1676217062784073008"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -2710,7 +2710,7 @@
           "timestamp_nanosec": "1676266148324234331"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -4055,7 +4055,7 @@
           "timestamp_nanosec": "1676315823338865385"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -5400,7 +5400,7 @@
           "timestamp_nanosec": "1676364465044311104"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -6745,7 +6745,7 @@
           "timestamp_nanosec": "1676422094481423353"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -8098,7 +8098,7 @@
           "timestamp_nanosec": "1676478610699409955"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "astro-stakers.poolv1.near",
           "public_key": "ed25519:2nPSBCzjqikgwrqUMcuEVReJhmkC91eqJGPGqH9sZc28",
@@ -9446,7 +9446,7 @@
           "timestamp_nanosec": "1676530650148137101"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -10794,7 +10794,7 @@
           "timestamp_nanosec": "1676580407346489461"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -12140,7 +12140,7 @@
           "timestamp_nanosec": "1676629201797329452"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -13485,7 +13485,7 @@
           "timestamp_nanosec": "1676678782015614635"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -14831,7 +14831,7 @@
           "timestamp_nanosec": "1676728212860420881"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -16178,7 +16178,7 @@
           "timestamp_nanosec": "1676777624918050828"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -17523,7 +17523,7 @@
           "timestamp_nanosec": "1676832852742031344"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -18869,7 +18869,7 @@
           "timestamp_nanosec": "1676888006639557013"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -20215,7 +20215,7 @@
           "timestamp_nanosec": "1676938474975028598"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -21561,7 +21561,7 @@
           "timestamp_nanosec": "1676988330048071638"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -22906,7 +22906,7 @@
           "timestamp_nanosec": "1677038460651166210"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -24251,7 +24251,7 @@
           "timestamp_nanosec": "1677089588145466759"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -25596,7 +25596,7 @@
           "timestamp_nanosec": "1677139754802022651"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -26942,7 +26942,7 @@
           "timestamp_nanosec": "1677192228912337414"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -28288,7 +28288,7 @@
           "timestamp_nanosec": "1677241482284649950"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",
@@ -29633,7 +29633,7 @@
           "timestamp_nanosec": "1677291808695131801"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "figment.poolv1.near",
           "public_key": "ed25519:7RjyY1bRKDqkshbKZtgpQdwsdxou8j9my8g1hPKZ9ngM",

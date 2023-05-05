@@ -20,7 +20,7 @@
           "timestamp_nanosec": "1645506889152004146"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -1352,7 +1352,7 @@
           "timestamp_nanosec": "1645561898443102136"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -2693,7 +2693,7 @@
           "timestamp_nanosec": "1645615366251751633"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -4038,7 +4038,7 @@
           "timestamp_nanosec": "1645670575361321589"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -5379,7 +5379,7 @@
           "timestamp_nanosec": "1645724598219400519"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -6720,7 +6720,7 @@
           "timestamp_nanosec": "1645778453752605208"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -8066,7 +8066,7 @@
           "timestamp_nanosec": "1645832359775399044"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -9411,7 +9411,7 @@
           "timestamp_nanosec": "1645885931591281502"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -10757,7 +10757,7 @@
           "timestamp_nanosec": "1645938614580242023"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -12103,7 +12103,7 @@
           "timestamp_nanosec": "1645992554861620977"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -13448,7 +13448,7 @@
           "timestamp_nanosec": "1646046037537670750"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -14793,7 +14793,7 @@
           "timestamp_nanosec": "1646099318731345146"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -16139,7 +16139,7 @@
           "timestamp_nanosec": "1646152607873653050"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -17484,7 +17484,7 @@
           "timestamp_nanosec": "1646206926002887072"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -18829,7 +18829,7 @@
           "timestamp_nanosec": "1646261211481534762"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -20174,7 +20174,7 @@
           "timestamp_nanosec": "1646315041143027182"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -21519,7 +21519,7 @@
           "timestamp_nanosec": "1646368994500510237"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -22865,7 +22865,7 @@
           "timestamp_nanosec": "1646422891866828296"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -24211,7 +24211,7 @@
           "timestamp_nanosec": "1646477074070140624"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -25556,7 +25556,7 @@
           "timestamp_nanosec": "1646531050012048810"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -26902,7 +26902,7 @@
           "timestamp_nanosec": "1646585312518437991"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -28248,7 +28248,7 @@
           "timestamp_nanosec": "1646639385932653214"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
@@ -29594,7 +29594,7 @@
           "timestamp_nanosec": "1646694064634536595"
         }
       },
-      "next_bps": [
+      "current_bps": [
         {
           "account_id": "staked.poolv1.near",
           "public_key": "ed25519:3JBVXqenru2ErAM1kHQ8qfd29dCkURLd6JKrFgtmcDTZ",
