@@ -1,8 +1,7 @@
 import bs58 from "bs58";
-import { readFileSync, readdirSync, statSync } from "fs";
-import { join } from "path";
+import { readFileSync } from "fs";
 import { lightClient } from "near-api-js";
-import { ExecutionTestVector } from "./testVector";
+import { ExecutionTestVector, getAllJsonFiles } from "./testVector";
 
 function runTestVectors(testVectors: ExecutionTestVector[]): void {
   let passed = 0;
@@ -43,23 +42,6 @@ function runTestVectors(testVectors: ExecutionTestVector[]): void {
   });
 
   console.log(`\nSummary: ${passed} PASSED, ${failed} FAILED`);
-}
-
-function getAllJsonFiles(
-  dirPath: string,
-  arrayOfFiles: string[] = []
-): string[] {
-  const files = readdirSync(dirPath);
-
-  files.forEach((file) => {
-    if (statSync(join(dirPath, file)).isDirectory()) {
-      arrayOfFiles = getAllJsonFiles(join(dirPath, file), arrayOfFiles);
-    } else if (file.endsWith(".json")) {
-      arrayOfFiles.push(join(dirPath, file));
-    }
-  });
-
-  return arrayOfFiles;
 }
 
 const args = process.argv.slice(2);
