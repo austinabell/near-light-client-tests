@@ -19,7 +19,7 @@ async function main() {
     finality: "final",
   });
 
-  // Get a block from 8 epochs back
+  // Get a block from 40 epochs back
   const firstEpochHeight = height - protocolConfig.epoch_length * 40;
   const firstBlock = await provider.block({ blockId: firstEpochHeight });
   let prevBlock = await provider.nextLightClientBlock({
